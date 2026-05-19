@@ -1,0 +1,33 @@
+{
+  "feeds": [
+    {
+      "name": "CoinDesk",
+      "url": "https://www.coindesk.com/arc/outboundfeeds/rss/"
+    },
+    {
+      "name": "Cointelegraph",
+      "url": "https://cointelegraph.com/rss"
+    },
+    {
+      "name": "Decrypt",
+      "url": "https://decrypt.co/feed"
+    },
+    {
+      "name": "The Block",
+      "url": "https://www.theblock.co/rss.xml"
+    },
+    {
+      "name": "CryptoSlate",
+      "url": "https://cryptoslate.com/feed/"
+    }
+  ],
+  "coins": [
+    "bitcoin",
+    "ethereum",
+    "solana",
+    "binancecoin",
+    "ripple",
+    "dogecoin"
+  ]
+}
+
