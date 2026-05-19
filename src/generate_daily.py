@@ -216,7 +216,7 @@ def call_minimax(prompt: str) -> dict[str, Any] | None:
         return None
 
     model = os.getenv("MINIMAX_MODEL", "MiniMax-M2.7")
-    base_url = os.getenv("MINIMAX_BASE_URL", "https://api.minimax.io/v1")
+    base_url = os.getenv("MINIMAX_BASE_URL", "https://api.minimaxi.com/v1")
     client = OpenAI(api_key=api_key, base_url=base_url)
     response = client.chat.completions.create(
         model=model,
