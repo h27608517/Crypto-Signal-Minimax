@@ -5,6 +5,7 @@ import base64
 import hashlib
 import hmac
 import json
+import math
 import os
 import re
 import urllib.parse
@@ -27,6 +28,20 @@ SRC = ROOT / "src"
 PUBLIC = ROOT / "public"
 REPORTS = PUBLIC / "reports"
 SOURCES_FILE = SRC / "sources.json"
+STABLE_ASSETS = {"USDT", "USDC", "DAI", "FDUSD", "TUSD", "USD", "EUR", "CNY"}
+DEFAULT_CANDIDATES = ["BTC", "ETH", "SOL", "BNB", "XRP", "DOGE", "ADA", "AVAX", "LINK", "TON"]
+SYMBOL_ALIASES = {
+    "BTC": ["btc", "bitcoin"],
+    "ETH": ["eth", "ethereum"],
+    "SOL": ["sol", "solana"],
+    "BNB": ["bnb", "binance"],
+    "XRP": ["xrp", "ripple"],
+    "DOGE": ["doge", "dogecoin"],
+    "ADA": ["ada", "cardano"],
+    "AVAX": ["avax", "avalanche"],
+    "LINK": ["link", "chainlink"],
+    "TON": ["ton", "toncoin"],
+}
 
 
 @dataclass
@@ -193,6 +208,13 @@ def okx_get(path: str, params: dict[str, str] | None = None) -> dict[str, Any]:
     return fetch_json(f"{base_url}{request_path}", headers=okx_headers("GET", request_path))
 
 
+def okx_public_get(path: str, params: dict[str, str] | None = None) -> dict[str, Any]:
+    query = urllib.parse.urlencode(params or {})
+    request_path = f"{path}?{query}" if query else path
+    base_url = os.getenv("OKX_BASE_URL", "https://www.okx.com").rstrip("/")
+    return fetch_json(f"{base_url}{request_path}")
+
+
 def as_float(value: Any) -> float:
     try:
         if value in ("", None):
@@ -284,16 +306,400 @@ def fetch_okx_portfolio() -> dict[str, Any]:
     }
 
 
-def build_prompt(report_date: str, market: list[dict[str, Any]], news: list[NewsItem]) -> str:
+def held_spot_symbols(okx: dict[str, Any]) -> list[str]:
+    symbols = []
+    for item in okx.get("balances", []):
+        ccy = str(item.get("ccy", "")).upper()
+        if not ccy or ccy in STABLE_ASSETS:
+            continue
+        if as_float(item.get("eqUsd")) <= 1:
+            continue
+        symbols.append(ccy)
+    return sorted(set(symbols))
+
+
+def ticker_change_pct(ticker: dict[str, Any]) -> float:
+    last = as_float(ticker.get("last"))
+    open_24h = as_float(ticker.get("open24h")) or as_float(ticker.get("sodUtc0"))
+    if last <= 0 or open_24h <= 0:
+        return 0.0
+    return (last - open_24h) / open_24h * 100
+
+
+def fetch_okx_spot_tickers() -> list[dict[str, Any]]:
+    try:
+        result = okx_public_get("/api/v5/market/tickers", {"instType": "SPOT"})
+    except Exception:
+        return []
+    if result.get("code") != "0":
+        return []
+    return result.get("data", [])
+
+
+def top_candidate_symbols(limit: int = 10) -> list[str]:
+    tickers = fetch_okx_spot_tickers()
+    candidates = []
+    for ticker in tickers:
+        inst_id = str(ticker.get("instId", ""))
+        if not inst_id.endswith("-USDT"):
+            continue
+        base = inst_id.split("-", 1)[0].upper()
+        if base in STABLE_ASSETS or any(part in base for part in ("3L", "3S", "5L", "5S", "UP", "DOWN", "BULL", "BEAR")):
+            continue
+        quote_volume = as_float(ticker.get("volCcy24h")) * as_float(ticker.get("last"))
+        if quote_volume <= 0:
+            quote_volume = as_float(ticker.get("vol24h"))
+        change = ticker_change_pct(ticker)
+        liquidity_score = math.log10(max(quote_volume, 1))
+        momentum_score = max(min(change, 18), -12) * 0.18
+        range_score = max(as_float(ticker.get("high24h")) - as_float(ticker.get("low24h")), 0) / max(as_float(ticker.get("last")), 1) * 8
+        score = liquidity_score + momentum_score + min(range_score, 4)
+        candidates.append((score, base))
+    candidates.sort(reverse=True)
+    symbols = [base for _, base in candidates[:limit]]
+    if len(symbols) < limit:
+        for symbol in DEFAULT_CANDIDATES:
+            if symbol not in symbols:
+                symbols.append(symbol)
+            if len(symbols) >= limit:
+                break
+    return symbols[:limit]
+
+
+def analysis_universe(okx: dict[str, Any]) -> list[str]:
+    symbols = held_spot_symbols(okx)
+    for symbol in top_candidate_symbols(10):
+        if symbol not in symbols:
+            symbols.append(symbol)
+    if not symbols:
+        symbols = DEFAULT_CANDIDATES[:]
+    return symbols[:20]
+
+
+def parse_okx_candles(rows: list[list[str]]) -> list[dict[str, float]]:
+    candles = []
+    for row in reversed(rows):
+        if len(row) < 6:
+            continue
+        candles.append(
+            {
+                "ts": as_float(row[0]),
+                "open": as_float(row[1]),
+                "high": as_float(row[2]),
+                "low": as_float(row[3]),
+                "close": as_float(row[4]),
+                "volume": as_float(row[5]),
+            }
+        )
+    return candles
+
+
+def fetch_okx_candles(inst_id: str, bar: str, limit: int = 120) -> list[dict[str, float]]:
+    try:
+        result = okx_public_get("/api/v5/market/candles", {"instId": inst_id, "bar": bar, "limit": str(limit)})
+    except Exception:
+        return []
+    if result.get("code") != "0":
+        return []
+    return parse_okx_candles(result.get("data", []))
+
+
+def aggregate_candles(candles: list[dict[str, float]], group_size: int) -> list[dict[str, float]]:
+    grouped = []
+    usable = len(candles) - (len(candles) % group_size)
+    for index in range(0, usable, group_size):
+        chunk = candles[index : index + group_size]
+        grouped.append(
+            {
+                "ts": chunk[-1]["ts"],
+                "open": chunk[0]["open"],
+                "high": max(item["high"] for item in chunk),
+                "low": min(item["low"] for item in chunk),
+                "close": chunk[-1]["close"],
+                "volume": sum(item["volume"] for item in chunk),
+            }
+        )
+    return grouped
+
+
+def closes(candles: list[dict[str, float]]) -> list[float]:
+    return [item["close"] for item in candles if item.get("close", 0) > 0]
+
+
+def sma(values: list[float], period: int) -> float:
+    if len(values) < period:
+        return 0.0
+    return sum(values[-period:]) / period
+
+
+def ema(values: list[float], period: int) -> float:
+    if len(values) < period:
+        return 0.0
+    multiplier = 2 / (period + 1)
+    current = sum(values[:period]) / period
+    for value in values[period:]:
+        current = value * multiplier + current * (1 - multiplier)
+    return current
+
+
+def rsi(values: list[float], period: int = 14) -> float:
+    if len(values) <= period:
+        return 50.0
+    gains = []
+    losses = []
+    for idx in range(1, len(values)):
+        change = values[idx] - values[idx - 1]
+        gains.append(max(change, 0))
+        losses.append(abs(min(change, 0)))
+    avg_gain = sum(gains[-period:]) / period
+    avg_loss = sum(losses[-period:]) / period
+    if avg_loss == 0:
+        return 100.0
+    return 100 - (100 / (1 + avg_gain / avg_loss))
+
+
+def macd(values: list[float]) -> dict[str, float]:
+    if len(values) < 35:
+        return {"macd": 0.0, "signal": 0.0, "hist": 0.0}
+    fast = ema(values, 12)
+    slow = ema(values, 26)
+    line = fast - slow
+    macd_series = []
+    for idx in range(26, len(values) + 1):
+        window = values[:idx]
+        macd_series.append(ema(window, 12) - ema(window, 26))
+    signal = ema(macd_series, 9) if len(macd_series) >= 9 else 0.0
+    return {"macd": line, "signal": signal, "hist": line - signal}
+
+
+def atr(candles: list[dict[str, float]], period: int = 14) -> float:
+    if len(candles) <= period:
+        return 0.0
+    ranges = []
+    for idx in range(1, len(candles)):
+        current = candles[idx]
+        previous = candles[idx - 1]
+        ranges.append(
+            max(
+                current["high"] - current["low"],
+                abs(current["high"] - previous["close"]),
+                abs(current["low"] - previous["close"]),
+            )
+        )
+    return sum(ranges[-period:]) / period
+
+
+def bollinger(values: list[float], period: int = 20) -> dict[str, float]:
+    middle = sma(values, period)
+    if len(values) < period or middle <= 0:
+        return {"mid": 0.0, "upper": 0.0, "lower": 0.0, "position": 0.5}
+    sample = values[-period:]
+    variance = sum((value - middle) ** 2 for value in sample) / period
+    deviation = math.sqrt(variance)
+    upper = middle + deviation * 2
+    lower = middle - deviation * 2
+    position = (values[-1] - lower) / (upper - lower) if upper > lower else 0.5
+    return {"mid": middle, "upper": upper, "lower": lower, "position": position}
+
+
+def pct_change(values: list[float], periods: int) -> float:
+    if len(values) <= periods or values[-periods - 1] <= 0:
+        return 0.0
+    return (values[-1] - values[-periods - 1]) / values[-periods - 1] * 100
+
+
+def analyze_candles(candles: list[dict[str, float]], label: str) -> dict[str, Any]:
+    values = closes(candles)
+    if len(values) < 35:
+        return {"timeframe": label, "error": "Not enough candle data"}
+
+    close = values[-1]
+    ema20 = ema(values, 20)
+    ema50 = ema(values, 50)
+    rsi14 = rsi(values, 14)
+    macd_data = macd(values)
+    atr14 = atr(candles, 14)
+    bb = bollinger(values, 20)
+    support = min(item["low"] for item in candles[-20:])
+    resistance = max(item["high"] for item in candles[-20:])
+    momentum = pct_change(values, 6)
+    volume_now = candles[-1]["volume"]
+    volume_avg = sum(item["volume"] for item in candles[-20:]) / 20
+    volume_ratio = volume_now / volume_avg if volume_avg > 0 else 1
+
+    score = 50.0
+    signals = []
+    if close > ema20:
+        score += 7
+        signals.append("price_above_ema20")
+    else:
+        score -= 7
+        signals.append("price_below_ema20")
+    if ema20 > ema50 > 0:
+        score += 9
+        signals.append("ema20_above_ema50")
+    elif ema50 > 0:
+        score -= 7
+        signals.append("ema20_below_ema50")
+    if 45 <= rsi14 <= 65:
+        score += 6
+        signals.append("healthy_rsi")
+    elif rsi14 > 72:
+        score -= 8
+        signals.append("overbought_rsi")
+    elif rsi14 < 35:
+        score -= 3
+        signals.append("weak_rsi")
+    if macd_data["hist"] > 0:
+        score += 7
+        signals.append("positive_macd_hist")
+    else:
+        score -= 5
+        signals.append("negative_macd_hist")
+    if momentum > 0:
+        score += min(momentum, 12) * 0.6
+        signals.append("positive_momentum")
+    else:
+        score += max(momentum, -12) * 0.45
+        signals.append("negative_momentum")
+    if volume_ratio > 1.25 and momentum > 0:
+        score += 5
+        signals.append("volume_expansion")
+    if bb["position"] > 0.9:
+        score -= 4
+        signals.append("near_upper_bollinger")
+    elif bb["position"] < 0.2:
+        score -= 2
+        signals.append("near_lower_bollinger")
+
+    score = max(0, min(100, score))
+    if score >= 68:
+        bias = "bullish"
+    elif score <= 42:
+        bias = "bearish"
+    else:
+        bias = "neutral"
+
+    if bias == "bullish":
+        expected_price = max(resistance, close + atr14 * 1.2)
+        downside_price = max(support, close - atr14)
+    elif bias == "bearish":
+        expected_price = support
+        downside_price = min(support, close - atr14 * 1.2)
+    else:
+        expected_price = close + (resistance - support) * 0.15
+        downside_price = support
+
+    return {
+        "timeframe": label,
+        "current_price": close,
+        "score": round(score, 1),
+        "bias": bias,
+        "rsi14": round(rsi14, 2),
+        "ema20": round(ema20, 8),
+        "ema50": round(ema50, 8),
+        "macd_hist": round(macd_data["hist"], 8),
+        "atr14": round(atr14, 8),
+        "support": round(support, 8),
+        "resistance": round(resistance, 8),
+        "momentum_pct": round(momentum, 2),
+        "volume_ratio": round(volume_ratio, 2),
+        "bollinger_position": round(bb["position"], 2),
+        "expected_price": round(expected_price, 8),
+        "downside_price": round(downside_price, 8),
+        "signals": signals[:8],
+    }
+
+
+def timeframe_probability(score: float) -> int:
+    distance = abs(score - 50)
+    return int(max(45, min(78, 48 + distance * 0.8)))
+
+
+def analyze_symbol(symbol: str) -> dict[str, Any]:
+    inst_id = f"{symbol.upper()}-USDT"
+    daily = fetch_okx_candles(inst_id, "1Dutc", 120)
+    four_hour = fetch_okx_candles(inst_id, "4H", 160)
+    eight_hour = aggregate_candles(four_hour, 2)
+    daily_result = analyze_candles(daily, "24h")
+    eight_hour_result = analyze_candles(eight_hour, "8h")
+    scores = [item["score"] for item in (daily_result, eight_hour_result) if "score" in item]
+    combined = sum(scores) / len(scores) if scores else 50
+    current_price = 0.0
+    for item in (eight_hour_result, daily_result):
+        if item.get("current_price"):
+            current_price = item["current_price"]
+            break
+    expected = eight_hour_result.get("expected_price") or daily_result.get("expected_price") or current_price
+    horizon = "2-4 days" if eight_hour_result.get("bias") == "bullish" else "1-2 weeks"
+    return {
+        "symbol": symbol.upper(),
+        "instId": inst_id,
+        "current_price": current_price,
+        "combined_score": round(combined, 1),
+        "probability": timeframe_probability(combined),
+        "expected_price": expected,
+        "target_time": horizon,
+        "timeframes": [eight_hour_result, daily_result],
+    }
+
+
+def fetch_technical_analysis(okx: dict[str, Any]) -> dict[str, Any]:
+    symbols = analysis_universe(okx)
+    results = []
+    for symbol in symbols:
+        results.append(analyze_symbol(symbol))
+    held = set(held_spot_symbols(okx))
+    for item in results:
+        item["held"] = item["symbol"] in held
+    results.sort(key=lambda item: (item["held"], item["combined_score"]), reverse=True)
+    return {
+        "source": "OKX public market data",
+        "timeframes": ["8h synthesized from 4h candles", "24h from 1Dutc candles"],
+        "symbols": symbols,
+        "results": results,
+    }
+
+
+def related_news_by_symbol(news: list[NewsItem], symbols: list[str]) -> dict[str, list[dict[str, str]]]:
+    related: dict[str, list[dict[str, str]]] = {}
+    for symbol in symbols:
+        aliases = SYMBOL_ALIASES.get(symbol.upper(), [symbol.lower()])
+        matches = []
+        for item in news:
+            haystack = f"{item.title} {item.summary}".lower()
+            if any(re.search(rf"(?<![a-z0-9]){re.escape(alias.lower())}(?![a-z0-9])", haystack) for alias in aliases):
+                matches.append(
+                    {
+                        "source": item.source,
+                        "title": item.title,
+                        "summary": item.summary,
+                        "url": item.link,
+                    }
+                )
+        related[symbol.upper()] = matches[:5]
+    return related
+
+
+def build_prompt(
+    report_date: str,
+    market: list[dict[str, Any]],
+    news: list[NewsItem],
+    okx: dict[str, Any],
+    technical: dict[str, Any],
+) -> str:
     news_lines = "\n".join(
         f"- [{item.source}] {item.title} ({item.published})\n  {item.summary}\n  Link: {item.link}"
         for item in news
     )
     market_json = json.dumps(market, ensure_ascii=False, indent=2)
+    okx_json = json.dumps(okx, ensure_ascii=False, indent=2)
+    technical_json = json.dumps(technical, ensure_ascii=False, indent=2)
+    coin_news_json = json.dumps(related_news_by_symbol(news, technical.get("symbols", [])), ensure_ascii=False, indent=2)
 
     return f"""
-You are a professional crypto market editor writing for Chinese readers.
-Create a Chinese crypto daily report for {report_date} from the market data and news below.
+You are a professional crypto market editor and spot trading analyst writing for Chinese readers.
+Create a Chinese crypto daily report for {report_date} from the market data, OKX portfolio, technical analysis, and news below.
 
 Rules:
 1. Return strict JSON only. Do not return Markdown or code fences.
@@ -304,11 +710,24 @@ Rules:
    - key_events: 5-8 objects with category, title, summary, impact, source_url
    - watchlist: 3-5 strings
    - risk_notes: 3-5 strings
-3. Do not invent facts. If something is uncertain, say it needs further observation.
-4. Tone: clear, calm, concise, useful for a morning briefing.
+   - trade_conclusions: 5-10 objects with symbol, action, current_price, expected_price, target_time, probability, reason, risk
+3. trade_conclusions must prioritize held OKX spot assets first, then high-potential candidates.
+4. Use the supplied 8h and 24h technical analysis. The user is a spot trader, not a high-frequency trader.
+5. Do not invent facts. If something is uncertain, say it needs further observation.
+6. Tone: clear, calm, concise, useful for a morning briefing.
+7. action must be one of: buy, add, hold, reduce, sell, watch.
 
 Market data:
 {market_json}
+
+OKX portfolio:
+{okx_json}
+
+Automated technical analysis:
+{technical_json}
+
+Coin-related source news:
+{coin_news_json}
 
 News:
 {news_lines}
@@ -339,6 +758,7 @@ def fallback_analysis(report_date: str, market: list[dict[str, Any]], news: list
         "brief": "Data fetched successfully. MiniMax is not configured, so this is a basic fallback report.",
         "market_summary": movers[:5] or ["Market data is temporarily unavailable."],
         "key_events": key_events,
+        "trade_conclusions": [],
         "watchlist": ["Key BTC and ETH levels", "ETF, regulation, and macro rate headlines", "Capital flows across major chains"],
         "risk_notes": ["Crypto assets are highly volatile", "News feeds can be delayed", "This report is informational and is not investment advice"],
     }
@@ -486,7 +906,79 @@ def render_okx_section(okx: dict[str, Any]) -> str:
     </section>"""
 
 
-def render_report(report_date: str, analysis: dict[str, Any], market: list[dict[str, Any]], okx: dict[str, Any]) -> str:
+def fmt_price(value: Any) -> str:
+    try:
+        number = float(value)
+    except Exception:
+        return "-"
+    if number >= 100:
+        return f"${number:,.2f}"
+    if number >= 1:
+        return f"${number:,.4f}".rstrip("0").rstrip(".")
+    return f"${number:.8f}".rstrip("0").rstrip(".")
+
+
+def render_technical_section(analysis: dict[str, Any], technical: dict[str, Any]) -> str:
+    conclusions = analysis.get("trade_conclusions") or []
+    if conclusions:
+        rows = "".join(
+            f"""
+          <tr>
+            <td>{esc(item.get("symbol"))}</td>
+            <td><span class="action action-{esc(str(item.get("action", "watch")).lower())}">{esc(item.get("action"))}</span></td>
+            <td>{fmt_price(item.get("current_price"))}</td>
+            <td>{fmt_price(item.get("expected_price"))}</td>
+            <td>{esc(item.get("target_time"))}</td>
+            <td>{esc(item.get("probability"))}%</td>
+            <td>{esc(item.get("reason"))}</td>
+            <td>{esc(item.get("risk"))}</td>
+          </tr>"""
+            for item in conclusions
+        )
+        return f"""
+    <section>
+      <h2>Technical Outlook</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Coin</th><th>Action</th><th>Now</th><th>Expected</th><th>Time</th><th>Probability</th><th>Reason</th><th>Risk</th></tr></thead>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
+    </section>"""
+
+    rows = "".join(
+        f"""
+          <tr>
+            <td>{esc(item.get("symbol"))}</td>
+            <td>{esc("held" if item.get("held") else "candidate")}</td>
+            <td>{fmt_price(item.get("current_price"))}</td>
+            <td>{fmt_price(item.get("expected_price"))}</td>
+            <td>{esc(item.get("target_time"))}</td>
+            <td>{esc(item.get("probability"))}%</td>
+            <td>{esc(item.get("combined_score"))}</td>
+          </tr>"""
+        for item in technical.get("results", [])[:12]
+    ) or '<tr><td colspan="7">No technical analysis available.</td></tr>'
+    return f"""
+    <section>
+      <h2>Technical Outlook</h2>
+      <div class="notice">MiniMax trade conclusions are unavailable; showing automated indicator scores.</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Coin</th><th>Type</th><th>Now</th><th>Expected</th><th>Time</th><th>Probability</th><th>Score</th></tr></thead>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
+    </section>"""
+
+
+def render_report(
+    report_date: str,
+    analysis: dict[str, Any],
+    market: list[dict[str, Any]],
+    okx: dict[str, Any],
+    technical: dict[str, Any],
+) -> str:
     market_cards = []
     for coin in market:
         if coin.get("error"):
@@ -530,6 +1022,7 @@ def render_report(report_date: str, analysis: dict[str, Any], market: list[dict[
     risk_notes = "".join(f"<li>{esc(item)}</li>" for item in analysis.get("risk_notes", []))
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     okx_section = render_okx_section(okx)
+    technical_section = render_technical_section(analysis, technical)
 
     return f"""<!doctype html>
 <html lang="zh-Hans">
@@ -575,6 +1068,9 @@ def render_report(report_date: str, analysis: dict[str, Any], market: list[dict[
     th {{ color: var(--muted); font-size: 12px; text-transform: uppercase; }}
     tr:last-child td {{ border-bottom: 0; }}
     .notice {{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px; color: var(--muted); line-height: 1.6; }}
+    .action {{ display: inline-block; min-width: 56px; padding: 4px 8px; border-radius: 999px; text-align: center; font-size: 12px; font-weight: 760; background: #ece5d8; color: var(--ink); }}
+    .action-buy, .action-add {{ background: rgba(15, 118, 110, .14); color: var(--accent); }}
+    .action-reduce, .action-sell {{ background: rgba(194, 65, 12, .14); color: var(--hot); }}
     .plain-list {{ margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }}
     footer {{ padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; }}
     @media (max-width: 760px) {{ header {{ grid-template-columns: 1fr; }} .brief {{ font-size: 18px; }} }}
@@ -591,6 +1087,7 @@ def render_report(report_date: str, analysis: dict[str, Any], market: list[dict[
     </header>
     <section><h2>Market Snapshot</h2><div class="market">{"".join(market_cards)}</div></section>
     {okx_section}
+    {technical_section}
     <section><h2>Market in Brief</h2><ul class="summary-list">{summary_items}</ul></section>
     <section><h2>Key Events</h2><div class="events">{"".join(event_cards)}</div></section>
     <section class="columns">
@@ -637,11 +1134,17 @@ def render_index(latest_report: str, analysis: dict[str, Any]) -> str:
 </html>"""
 
 
-def render(report_date: str, analysis: dict[str, Any], market: list[dict[str, Any]], okx: dict[str, Any]) -> None:
+def render(
+    report_date: str,
+    analysis: dict[str, Any],
+    market: list[dict[str, Any]],
+    okx: dict[str, Any],
+    technical: dict[str, Any],
+) -> None:
     PUBLIC.mkdir(exist_ok=True)
     REPORTS.mkdir(parents=True, exist_ok=True)
     report_name = f"crypto-{report_date}.html"
-    (REPORTS / report_name).write_text(render_report(report_date, analysis, market, okx), encoding="utf-8")
+    (REPORTS / report_name).write_text(render_report(report_date, analysis, market, okx, technical), encoding="utf-8")
     (PUBLIC / "index.html").write_text(render_index(report_name, analysis), encoding="utf-8")
 
 
@@ -651,9 +1154,10 @@ def main() -> None:
     news = fetch_news(config)
     market = fetch_market(config)
     okx = fetch_okx_portfolio()
-    prompt = build_prompt(report_date, market, news)
+    technical = fetch_technical_analysis(okx)
+    prompt = build_prompt(report_date, market, news, okx, technical)
     analysis = call_minimax(prompt) or fallback_analysis(report_date, market, news)
-    render(report_date, analysis, market, okx)
+    render(report_date, analysis, market, okx, technical)
     print(f"Generated public/reports/crypto-{report_date}.html")
 
 
