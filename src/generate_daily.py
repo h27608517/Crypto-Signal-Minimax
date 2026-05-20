@@ -245,6 +245,8 @@ def fetch_okx_portfolio() -> dict[str, Any]:
                 "availEq": item.get("availEq", ""),
                 "eqUsd": item.get("eqUsd", ""),
                 "upl": item.get("upl", ""),
+                "openAvgPx": item.get("openAvgPx", ""),
+                "spotUpl": item.get("spotUpl", ""),
             }
         )
     balances.sort(key=lambda item: as_float(item.get("eqUsd")), reverse=True)
@@ -442,10 +444,12 @@ def render_okx_section(okx: dict[str, Any]) -> str:
             <td>{compact_num(item.get("eq"))}</td>
             <td>{compact_num(item.get("cashBal"))}</td>
             <td>{usd(item.get("eqUsd"))}</td>
+            <td>{compact_num(item.get("openAvgPx"))}</td>
+            <td>{usd(item.get("spotUpl"))}</td>
             <td>{usd(item.get("upl"))}</td>
           </tr>"""
         for item in okx.get("balances", [])
-    ) or '<tr><td colspan="5">No non-zero balances.</td></tr>'
+    ) or '<tr><td colspan="7">No non-zero balances.</td></tr>'
 
     position_rows = "".join(
         f"""
@@ -468,14 +472,14 @@ def render_okx_section(okx: dict[str, Any]) -> str:
       <div class="table-wrap">
         <h3>Asset Balances</h3>
         <table>
-          <thead><tr><th>Asset</th><th>Equity</th><th>Cash</th><th>USD Value</th><th>Unrealized PnL</th></tr></thead>
+          <thead><tr><th>Asset</th><th>Equity</th><th>Cash</th><th>USD Value</th><th>Spot Avg Price</th><th>Spot Upnl</th><th>Position Upnl</th></tr></thead>
           <tbody>{balance_rows}</tbody>
         </table>
       </div>
       <div class="table-wrap">
         <h3>Open Positions</h3>
         <table>
-          <thead><tr><th>Instrument</th><th>Side</th><th>Size</th><th>Avg Price</th><th>Mark Price</th><th>Unrealized PnL</th><th>PnL %</th></tr></thead>
+          <thead><tr><th>Instrument</th><th>Side</th><th>Size</th><th>Avg Price</th><th>Mark Price</th><th>Position Upnl</th><th>PnL %</th></tr></thead>
           <tbody>{position_rows}</tbody>
         </table>
       </div>
