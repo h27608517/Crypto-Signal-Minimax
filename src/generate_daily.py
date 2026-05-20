@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import html
+import base64
+import hashlib
+import hmac
 import json
 import os
 import re
@@ -56,6 +59,13 @@ def fetch_text(url: str, timeout: int = 25) -> str:
     with urllib.request.urlopen(request, timeout=timeout) as response:
         charset = response.headers.get_content_charset() or "utf-8"
         return response.read().decode(charset, errors="replace")
+
+
+def fetch_json(url: str, headers: dict[str, str] | None = None, timeout: int = 25) -> dict[str, Any]:
+    request = urllib.request.Request(url, headers=headers or {"User-Agent": "crypto-daily-bot/1.0"})
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        charset = response.headers.get_content_charset() or "utf-8"
+        return json.loads(response.read().decode(charset, errors="replace"))
 
 
 def local_name(tag: str) -> str:
@@ -148,6 +158,128 @@ def fetch_market(config: dict[str, Any]) -> list[dict[str, Any]]:
         return json.loads(fetch_text(url))
     except Exception as exc:
         return [{"name": "Market data unavailable", "symbol": "-", "error": str(exc)}]
+
+
+def okx_timestamp() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+
+
+def okx_headers(method: str, request_path: str, body: str = "") -> dict[str, str]:
+    api_key = os.getenv("OKX_API_KEY", "")
+    secret_key = os.getenv("OKX_SECRET_KEY", "")
+    passphrase = os.getenv("OKX_PASSPHRASE", "")
+    timestamp = okx_timestamp()
+    prehash = f"{timestamp}{method.upper()}{request_path}{body}"
+    signature = base64.b64encode(
+        hmac.new(secret_key.encode("utf-8"), prehash.encode("utf-8"), hashlib.sha256).digest()
+    ).decode("utf-8")
+    headers = {
+        "Content-Type": "application/json",
+        "User-Agent": "crypto-daily-bot/1.0",
+        "OK-ACCESS-KEY": api_key,
+        "OK-ACCESS-SIGN": signature,
+        "OK-ACCESS-TIMESTAMP": timestamp,
+        "OK-ACCESS-PASSPHRASE": passphrase,
+    }
+    if os.getenv("OKX_SIMULATED_TRADING") == "1":
+        headers["x-simulated-trading"] = "1"
+    return headers
+
+
+def okx_get(path: str, params: dict[str, str] | None = None) -> dict[str, Any]:
+    query = urllib.parse.urlencode(params or {})
+    request_path = f"{path}?{query}" if query else path
+    base_url = os.getenv("OKX_BASE_URL", "https://www.okx.com").rstrip("/")
+    return fetch_json(f"{base_url}{request_path}", headers=okx_headers("GET", request_path))
+
+
+def as_float(value: Any) -> float:
+    try:
+        if value in ("", None):
+            return 0.0
+        return float(value)
+    except Exception:
+        return 0.0
+
+
+def fetch_okx_portfolio() -> dict[str, Any]:
+    required = ["OKX_API_KEY", "OKX_SECRET_KEY", "OKX_PASSPHRASE"]
+    missing = [name for name in required if not os.getenv(name)]
+    if missing:
+        return {"configured": False, "error": f"Missing GitHub Secrets: {', '.join(missing)}", "balances": [], "positions": []}
+
+    try:
+        balance_result = okx_get("/api/v5/account/balance")
+        positions_result = okx_get("/api/v5/account/positions")
+    except Exception as exc:
+        return {"configured": True, "error": str(exc), "balances": [], "positions": []}
+
+    if balance_result.get("code") != "0":
+        return {
+            "configured": True,
+            "error": f"OKX balance error {balance_result.get('code')}: {balance_result.get('msg')}",
+            "balances": [],
+            "positions": [],
+        }
+    if positions_result.get("code") != "0":
+        return {
+            "configured": True,
+            "error": f"OKX positions error {positions_result.get('code')}: {positions_result.get('msg')}",
+            "balances": [],
+            "positions": [],
+        }
+
+    account = (balance_result.get("data") or [{}])[0]
+    balances = []
+    for item in account.get("details", []):
+        eq_usd = as_float(item.get("eqUsd"))
+        equity = as_float(item.get("eq"))
+        cash_balance = as_float(item.get("cashBal"))
+        if eq_usd <= 0 and equity <= 0 and cash_balance <= 0:
+            continue
+        balances.append(
+            {
+                "ccy": item.get("ccy", ""),
+                "eq": item.get("eq", ""),
+                "cashBal": item.get("cashBal", ""),
+                "availEq": item.get("availEq", ""),
+                "eqUsd": item.get("eqUsd", ""),
+                "upl": item.get("upl", ""),
+            }
+        )
+    balances.sort(key=lambda item: as_float(item.get("eqUsd")), reverse=True)
+
+    positions = []
+    for item in positions_result.get("data", []):
+        if as_float(item.get("pos")) == 0:
+            continue
+        positions.append(
+            {
+                "instId": item.get("instId", ""),
+                "posSide": item.get("posSide", ""),
+                "pos": item.get("pos", ""),
+                "avgPx": item.get("avgPx", ""),
+                "markPx": item.get("markPx", ""),
+                "upl": item.get("upl", ""),
+                "uplRatio": item.get("uplRatio", ""),
+                "lever": item.get("lever", ""),
+                "mgnMode": item.get("mgnMode", ""),
+                "liqPx": item.get("liqPx", ""),
+                "ccy": item.get("ccy", ""),
+            }
+        )
+    positions.sort(key=lambda item: abs(as_float(item.get("upl"))), reverse=True)
+
+    return {
+        "configured": True,
+        "error": "",
+        "totalEq": account.get("totalEq", ""),
+        "adjEq": account.get("adjEq", ""),
+        "imr": account.get("imr", ""),
+        "mmr": account.get("mmr", ""),
+        "balances": balances[:20],
+        "positions": positions[:20],
+    }
 
 
 def build_prompt(report_date: str, market: list[dict[str, Any]], news: list[NewsItem]) -> str:
@@ -250,11 +382,107 @@ def pct(value: Any) -> str:
         return "-"
 
 
+def compact_num(value: Any) -> str:
+    try:
+        number = float(value)
+    except Exception:
+        return "-"
+    if abs(number) >= 1:
+        return f"{number:,.4f}".rstrip("0").rstrip(".")
+    return f"{number:.8f}".rstrip("0").rstrip(".")
+
+
+def usd(value: Any) -> str:
+    try:
+        return f"${float(value):,.2f}"
+    except Exception:
+        return "-"
+
+
 def esc(value: Any) -> str:
     return html.escape(str(value or ""), quote=True)
 
 
-def render_report(report_date: str, analysis: dict[str, Any], market: list[dict[str, Any]]) -> str:
+def render_okx_section(okx: dict[str, Any]) -> str:
+    if not okx.get("configured"):
+        return f"""
+    <section>
+      <h2>OKX Portfolio</h2>
+      <div class="notice">{esc(okx.get("error", "OKX API is not configured."))}</div>
+    </section>"""
+    if okx.get("error"):
+        return f"""
+    <section>
+      <h2>OKX Portfolio</h2>
+      <div class="notice">{esc(okx.get("error"))}</div>
+    </section>"""
+
+    summary_cards = f"""
+        <div class="portfolio-card">
+          <span>Total Equity</span>
+          <b>{usd(okx.get("totalEq"))}</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Adjusted Equity</span>
+          <b>{usd(okx.get("adjEq"))}</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Initial Margin</span>
+          <b>{usd(okx.get("imr"))}</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Maintenance Margin</span>
+          <b>{usd(okx.get("mmr"))}</b>
+        </div>"""
+
+    balance_rows = "".join(
+        f"""
+          <tr>
+            <td>{esc(item.get("ccy"))}</td>
+            <td>{compact_num(item.get("eq"))}</td>
+            <td>{compact_num(item.get("cashBal"))}</td>
+            <td>{usd(item.get("eqUsd"))}</td>
+            <td>{usd(item.get("upl"))}</td>
+          </tr>"""
+        for item in okx.get("balances", [])
+    ) or '<tr><td colspan="5">No non-zero balances.</td></tr>'
+
+    position_rows = "".join(
+        f"""
+          <tr>
+            <td>{esc(item.get("instId"))}</td>
+            <td>{esc(item.get("posSide"))}</td>
+            <td>{compact_num(item.get("pos"))}</td>
+            <td>{compact_num(item.get("avgPx"))}</td>
+            <td>{compact_num(item.get("markPx"))}</td>
+            <td>{usd(item.get("upl"))}</td>
+            <td>{pct(as_float(item.get("uplRatio")) * 100)}</td>
+          </tr>"""
+        for item in okx.get("positions", [])
+    ) or '<tr><td colspan="7">No open derivative positions.</td></tr>'
+
+    return f"""
+    <section>
+      <h2>OKX Portfolio</h2>
+      <div class="portfolio-summary">{summary_cards}</div>
+      <div class="table-wrap">
+        <h3>Asset Balances</h3>
+        <table>
+          <thead><tr><th>Asset</th><th>Equity</th><th>Cash</th><th>USD Value</th><th>Unrealized PnL</th></tr></thead>
+          <tbody>{balance_rows}</tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <h3>Open Positions</h3>
+        <table>
+          <thead><tr><th>Instrument</th><th>Side</th><th>Size</th><th>Avg Price</th><th>Mark Price</th><th>Unrealized PnL</th><th>PnL %</th></tr></thead>
+          <tbody>{position_rows}</tbody>
+        </table>
+      </div>
+    </section>"""
+
+
+def render_report(report_date: str, analysis: dict[str, Any], market: list[dict[str, Any]], okx: dict[str, Any]) -> str:
     market_cards = []
     for coin in market:
         if coin.get("error"):
@@ -297,6 +525,7 @@ def render_report(report_date: str, analysis: dict[str, Any], market: list[dict[
     watchlist = "".join(f"<li>{esc(item)}</li>" for item in analysis.get("watchlist", []))
     risk_notes = "".join(f"<li>{esc(item)}</li>" for item in analysis.get("risk_notes", []))
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    okx_section = render_okx_section(okx)
 
     return f"""<!doctype html>
 <html lang="zh-Hans">
@@ -331,6 +560,17 @@ def render_report(report_date: str, analysis: dict[str, Any], market: list[dict[
     .event p {{ color: var(--muted); line-height: 1.65; margin: 0 0 12px; }}
     .impact {{ font-size: 14px; color: var(--ink); }}
     .columns {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }}
+    .portfolio-summary {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px; }}
+    .portfolio-card {{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }}
+    .portfolio-card span {{ display: block; color: var(--muted); font-size: 13px; margin-bottom: 8px; }}
+    .portfolio-card b {{ font-size: 21px; }}
+    .table-wrap {{ margin-top: 18px; overflow-x: auto; }}
+    .table-wrap h3 {{ margin: 0 0 10px; font-size: 16px; }}
+    table {{ width: 100%; border-collapse: collapse; min-width: 680px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }}
+    th, td {{ padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; white-space: nowrap; }}
+    th {{ color: var(--muted); font-size: 12px; text-transform: uppercase; }}
+    tr:last-child td {{ border-bottom: 0; }}
+    .notice {{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px; color: var(--muted); line-height: 1.6; }}
     .plain-list {{ margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }}
     footer {{ padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; }}
     @media (max-width: 760px) {{ header {{ grid-template-columns: 1fr; }} .brief {{ font-size: 18px; }} }}
@@ -346,6 +586,7 @@ def render_report(report_date: str, analysis: dict[str, Any], market: list[dict[
       <p class="brief">{esc(analysis.get("brief"))}</p>
     </header>
     <section><h2>Market Snapshot</h2><div class="market">{"".join(market_cards)}</div></section>
+    {okx_section}
     <section><h2>Market in Brief</h2><ul class="summary-list">{summary_items}</ul></section>
     <section><h2>Key Events</h2><div class="events">{"".join(event_cards)}</div></section>
     <section class="columns">
@@ -392,11 +633,11 @@ def render_index(latest_report: str, analysis: dict[str, Any]) -> str:
 </html>"""
 
 
-def render(report_date: str, analysis: dict[str, Any], market: list[dict[str, Any]]) -> None:
+def render(report_date: str, analysis: dict[str, Any], market: list[dict[str, Any]], okx: dict[str, Any]) -> None:
     PUBLIC.mkdir(exist_ok=True)
     REPORTS.mkdir(parents=True, exist_ok=True)
     report_name = f"crypto-{report_date}.html"
-    (REPORTS / report_name).write_text(render_report(report_date, analysis, market), encoding="utf-8")
+    (REPORTS / report_name).write_text(render_report(report_date, analysis, market, okx), encoding="utf-8")
     (PUBLIC / "index.html").write_text(render_index(report_name, analysis), encoding="utf-8")
 
 
@@ -405,9 +646,10 @@ def main() -> None:
     config = load_config()
     news = fetch_news(config)
     market = fetch_market(config)
+    okx = fetch_okx_portfolio()
     prompt = build_prompt(report_date, market, news)
     analysis = call_minimax(prompt) or fallback_analysis(report_date, market, news)
-    render(report_date, analysis, market)
+    render(report_date, analysis, market, okx)
     print(f"Generated public/reports/crypto-{report_date}.html")
 
 

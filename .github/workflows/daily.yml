@@ -37,6 +37,11 @@ jobs:
           MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
           MINIMAX_MODEL: ${{ vars.MINIMAX_MODEL || 'MiniMax-M2.7' }}
           MINIMAX_BASE_URL: ${{ vars.MINIMAX_BASE_URL || 'https://api.minimaxi.com/v1' }}
+          OKX_API_KEY: ${{ secrets.OKX_API_KEY }}
+          OKX_SECRET_KEY: ${{ secrets.OKX_SECRET_KEY }}
+          OKX_PASSPHRASE: ${{ secrets.OKX_PASSPHRASE }}
+          OKX_BASE_URL: ${{ vars.OKX_BASE_URL || 'https://www.okx.com' }}
+          OKX_SIMULATED_TRADING: ${{ vars.OKX_SIMULATED_TRADING || '0' }}
         run: python src/generate_daily.py
 
       - name: Commit generated report

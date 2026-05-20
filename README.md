@@ -21,7 +21,12 @@
 3. 配置 MiniMax API Key：
    - `Settings` -> `Secrets and variables` -> `Actions`
    - 新增 secret：`MINIMAX_API_KEY`
-4. 到 `Actions` 页面手动运行一次 `Daily Crypto Report`。
+4. 配置 OKX 只读 API：
+   - 新增 secret：`OKX_API_KEY`
+   - 新增 secret：`OKX_SECRET_KEY`
+   - 新增 secret：`OKX_PASSPHRASE`
+   - OKX API 建议只开读取权限，不要开交易/提币权限
+5. 到 `Actions` 页面手动运行一次 `Daily Crypto Report`。
 
 生成后访问：
 
@@ -53,7 +58,12 @@ python src\generate_daily.py
 
 - `MINIMAX_API_KEY`：MiniMax API key
 - `MINIMAX_MODEL`：MiniMax 模型名，默认 `MiniMax-M2.7`
-- `MINIMAX_BASE_URL`：MiniMax OpenAI 兼容接口地址，默认 `https://api.minimax.io/v1`
+- `MINIMAX_BASE_URL`：MiniMax OpenAI 兼容接口地址，默认 `https://api.minimaxi.com/v1`
+- `OKX_API_KEY`：OKX API key，建议只读权限
+- `OKX_SECRET_KEY`：OKX API secret
+- `OKX_PASSPHRASE`：OKX API passphrase
+- `OKX_BASE_URL`：OKX API 地址，默认 `https://www.okx.com`
+- `OKX_SIMULATED_TRADING`：模拟盘填 `1`，实盘默认 `0`
 - `REPORT_DATE`：指定生成日期，例如 `2026-04-07`
 - `MAX_ITEMS_PER_FEED`：每个 RSS 源最多取多少条，默认 `8`
 
