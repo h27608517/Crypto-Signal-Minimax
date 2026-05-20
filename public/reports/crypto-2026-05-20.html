@@ -42,6 +42,9 @@
     th { color: var(--muted); font-size: 12px; text-transform: uppercase; }
     tr:last-child td { border-bottom: 0; }
     .notice { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px; color: var(--muted); line-height: 1.6; }
+    .action { display: inline-block; min-width: 56px; padding: 4px 8px; border-radius: 999px; text-align: center; font-size: 12px; font-weight: 760; background: #ece5d8; color: var(--ink); }
+    .action-buy, .action-add { background: rgba(15, 118, 110, .14); color: var(--accent); }
+    .action-reduce, .action-sell { background: rgba(194, 65, 12, .14); color: var(--hot); }
     .plain-list { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }
     footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; }
     @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
@@ -54,38 +57,38 @@
         <div class="date">2026-05-20 · Crypto Daily</div>
         <h1>加密市场日报 | 2026年5月20日</h1>
       </div>
-      <p class="brief">BTC企稳77000美元，机构和监管动态密集，关注本周英伟达财报对市场情绪影响</p>
+      <p class="brief">BTC测试76000支撑，机构ETF流出超10亿美元，Hyperliquid被低估关注度高</p>
     </header>
     <section><h2>Market Snapshot</h2><div class="market">
           <div class="coin">
             <b>Bitcoin · BTC</b>
-            <div class="price">$77,265.00</div>
-            <div class="change up">24h +1.10%</div>
+            <div class="price">$77,387.00</div>
+            <div class="change up">24h +1.27%</div>
           </div>
           <div class="coin">
             <b>Ethereum · ETH</b>
-            <div class="price">$2,127.30</div>
-            <div class="change up">24h +0.98%</div>
+            <div class="price">$2,133.53</div>
+            <div class="change up">24h +1.25%</div>
           </div>
           <div class="coin">
             <b>BNB · BNB</b>
-            <div class="price">$644.47</div>
-            <div class="change up">24h +1.01%</div>
+            <div class="price">$647.42</div>
+            <div class="change up">24h +1.43%</div>
           </div>
           <div class="coin">
             <b>XRP · XRP</b>
             <div class="price">$1.37</div>
-            <div class="change up">24h +0.13%</div>
+            <div class="change up">24h +0.26%</div>
           </div>
           <div class="coin">
             <b>Solana · SOL</b>
-            <div class="price">$85.00</div>
-            <div class="change up">24h +1.03%</div>
+            <div class="price">$85.76</div>
+            <div class="change up">24h +1.84%</div>
           </div>
           <div class="coin">
             <b>Dogecoin · DOGE</b>
             <div class="price">$0.10</div>
-            <div class="change up">24h +0.47%</div>
+            <div class="change up">24h +0.94%</div>
           </div></div></section>
     
     <section>
@@ -93,7 +96,7 @@
       <div class="portfolio-summary">
         <div class="portfolio-card">
           <span>Total Equity</span>
-          <b>$632.43</b>
+          <b>$633.39</b>
         </div>
         <div class="portfolio-card">
           <span>Adjusted Equity</span>
@@ -110,20 +113,24 @@
       <div class="table-wrap">
         <h3>Asset Balances</h3>
         <table>
-          <thead><tr><th>Asset</th><th>Equity</th><th>Cash</th><th>USD Value</th><th>Unrealized PnL</th></tr></thead>
+          <thead><tr><th>Asset</th><th>Equity</th><th>Cash</th><th>USD Value</th><th>Spot Avg Price</th><th>Spot Upnl</th><th>Position Upnl</th></tr></thead>
           <tbody>
           <tr>
             <td>BTC</td>
             <td>0.00696701</td>
             <td>0.00696701</td>
-            <td>$538.61</td>
+            <td>$539.03</td>
+            <td>78,441.3598</td>
+            <td>$-7.48</td>
             <td>$0.00</td>
           </tr>
           <tr>
             <td>LIT</td>
             <td>76.6493</td>
             <td>76.6493</td>
-            <td>$92.75</td>
+            <td>$93.28</td>
+            <td>1.5315</td>
+            <td>$-24.10</td>
             <td>$0.00</td>
           </tr>
           <tr>
@@ -131,13 +138,17 @@
             <td>0.07338369</td>
             <td>0.07338369</td>
             <td>$0.68</td>
+            <td>8.8968</td>
+            <td>$0.03</td>
             <td>$0.00</td>
           </tr>
           <tr>
             <td>ETH</td>
             <td>0.00009619</td>
             <td>0.00009619</td>
-            <td>$0.20</td>
+            <td>$0.21</td>
+            <td>-</td>
+            <td>-</td>
             <td>$0.00</td>
           </tr>
           <tr>
@@ -145,6 +156,8 @@
             <td>0.1921138</td>
             <td>0.1921138</td>
             <td>$0.19</td>
+            <td>-</td>
+            <td>-</td>
             <td>$0.00</td>
           </tr>
           <tr>
@@ -152,6 +165,8 @@
             <td>0.000876</td>
             <td>0.000876</td>
             <td>$0.00</td>
+            <td>7.9618</td>
+            <td>$-0.01</td>
             <td>$0.00</td>
           </tr>
           <tr>
@@ -159,6 +174,8 @@
             <td>0.00000076</td>
             <td>0.00000076</td>
             <td>$0.00</td>
+            <td>-</td>
+            <td>-</td>
             <td>$0.00</td>
           </tr></tbody>
         </table>
@@ -166,88 +183,164 @@
       <div class="table-wrap">
         <h3>Open Positions</h3>
         <table>
-          <thead><tr><th>Instrument</th><th>Side</th><th>Size</th><th>Avg Price</th><th>Mark Price</th><th>Unrealized PnL</th><th>PnL %</th></tr></thead>
+          <thead><tr><th>Instrument</th><th>Side</th><th>Size</th><th>Avg Price</th><th>Mark Price</th><th>Position Upnl</th><th>PnL %</th></tr></thead>
           <tbody><tr><td colspan="7">No open derivative positions.</td></tr></tbody>
         </table>
       </div>
     </section>
-    <section><h2>Market in Brief</h2><ul class="summary-list"><li>比特币价格报77265美元，24小时微涨1.10%，但周线仍下跌3.63%，近期在77000美元附近窄幅震荡</li><li>以太坊报2127美元，24小时涨0.98%，但周线下跌6.83%，近期关注2100美元支撑</li><li>主流币种今晨小幅反弹，XRP和DOGE涨幅较小，市场等待本周宏观事件指引</li><li>比特币ETF上周净流出超10亿美元，为7周来首次净流出，机构动向需持续关注</li><li>分析师指出BTC在76000美元一线存在关键支撑，若失守或测试70000美元</li></ul></section>
+    
+    <section>
+      <h2>Technical Outlook</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Coin</th><th>Action</th><th>Now</th><th>Expected</th><th>Time</th><th>Probability</th><th>Reason</th><th>Risk</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>BTC</td>
+            <td><span class="action action-hold">hold</span></td>
+            <td>$77,387.00</td>
+            <td>$76,053.00</td>
+            <td>1-2周</td>
+            <td>60%</td>
+            <td>持仓成本78441美元高于现价，短期技术面偏弱但趋势未破，空头信号明显，暂持观望</td>
+            <td>若跌破76000支撑可能加速回调至72000美元，建议设止损于74500美元</td>
+          </tr>
+          <tr>
+            <td>LIT</td>
+            <td><span class="action action-add">add</span></td>
+            <td>$1.2187</td>
+            <td>$1.2954</td>
+            <td>2-4天</td>
+            <td>63%</td>
+            <td>综合得分69.2，8小时RSI高达89.25但仍有空间，量比2.7倍放大，阻力位1.2569美元，持有成本1.53美元可逢低加仓</td>
+            <td>RSI极端超买，回撤风险大，加仓后止损设于1.05美元，仓位不超过总持仓20%</td>
+          </tr>
+          <tr>
+            <td>ETH</td>
+            <td><span class="action action-hold">hold</span></td>
+            <td>$2,133.53</td>
+            <td>$2,077.83</td>
+            <td>1-2周</td>
+            <td>67%</td>
+            <td>持仓量极小，技术面8小时RSI 29.2超卖，短期下方空间有限，暂持观望等待企稳</td>
+            <td>ETH弱势明显，若跌破2000美元需考虑止损</td>
+          </tr>
+          <tr>
+            <td>HYPE</td>
+            <td><span class="action action-buy">buy</span></td>
+            <td>$51.359</td>
+            <td>$53.91</td>
+            <td>2-4天</td>
+            <td>69%</td>
+            <td>Bitwise评为&quot;最被低估&quot;代币，年度涨幅101%仍被低估，综合得分77.2，24小时得分81.2最强，突破51.75阻力后跟进</td>
+            <td>追高风险大，建议回调至48-49美元区间入场，首仓不超过10%</td>
+          </tr>
+          <tr>
+            <td>ZEC</td>
+            <td><span class="action action-watch">watch</span></td>
+            <td>$615.40</td>
+            <td>$647.77</td>
+            <td>2-4天</td>
+            <td>66%</td>
+            <td>综合得分73.1，8小时RSI 80.87超买，EMA多头排列，阻力622.62美元，突破后看647美元</td>
+            <td>短期RSI过高，回调概率大，耐心等待回调至570-580美元区间布局</td>
+          </tr>
+          <tr>
+            <td>DASH</td>
+            <td><span class="action action-watch">watch</span></td>
+            <td>$48.27</td>
+            <td>$50.87</td>
+            <td>2-4天</td>
+            <td>65%</td>
+            <td>8小时得分81.2最高，量比4.67倍极度放量，EMA多头排列，阻力49.83美元，需观察突破动能</td>
+            <td>量能异常放大，可能是短线行情，回调风险高</td>
+          </tr>
+          <tr>
+            <td>BNB</td>
+            <td><span class="action action-hold">hold</span></td>
+            <td>$647.42</td>
+            <td>$656.16</td>
+            <td>1-2周</td>
+            <td>49%</td>
+            <td>技术面中性偏弱，未持仓且无明显机会，继续观察为主</td>
+            <td>市场整体弱势，BNB缺乏独立催化剂</td>
+          </tr>
+          <tr>
+            <td>SOL</td>
+            <td><span class="action action-watch">watch</span></td>
+            <td>$85.76</td>
+            <td>$83.38</td>
+            <td>1-2周</td>
+            <td>58%</td>
+            <td>8小时RSI 32.56超卖，短期可能反弹，但整体偏弱，等待更明确企稳信号</td>
+            <td>若跌破83美元支撑，可能进一步测试75美元</td>
+          </tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section><h2>Market in Brief</h2><ul class="summary-list"><li>BTC当前77387美元，8小时RSI仅33.87，低于均线，空头信号，等待76000关键支撑是否守住</li><li>ETH维持在2134美元附近，8小时RSI 29.2超卖区域，短期技术偏弱，支撑关注2077美元</li><li>LIT技术面强劲，综合得分69.2，8小时RSI高达89.25，距阻力位1.2569美元仅一步之遥</li><li>HYPE获Bitwise评为&quot;最被低估&quot;代币，年度涨幅101%，综合得分77.2，需关注能否突破51.75阻力</li><li>主流币种普遍小幅反弹，整体量能萎缩，市场等待FOMC纪要与NVDA财报指引</li></ul></section>
     <section><h2>Key Events</h2><div class="events">
         <article class="event">
-          <span class="tag">机构动态</span>
-          <h3>比特币ETF上周净流出超10亿美元</h3>
-          <p>CoinShares数据显示数字资产投资产品净流出超10亿美元，为7周来首次负增长。分析师指出这可能代表机构短期撤资或新一轮去风险周期的开始。</p>
-          <div class="impact">利空</div>
+          <span class="tag">比特币</span>
+          <h3>比特币ETF上周流出超10亿美元</h3>
+          <p>CoinShares报告显示数字资产投资产品出现七周来首次周度净流出，机构资金短期撤离信号明显。</p>
+          <div class="impact">负面</div>
           <p><a href="https://cryptoslate.com/bitcoin-etf-flows-macro-risk-test/" target="_blank" rel="noreferrer">Source</a></p>
         </article>
         <article class="event">
-          <span class="tag">监管政策</span>
-          <h3>特朗普下令审查加密企业获取美联储账户权限</h3>
-          <p>特朗普签署行政令，要求美联储重新评估加密企业和金融科技公司直接接入央行支付系统的政策。Kraken、Ripple、Coinbase和Circle可能受益。</p>
-          <div class="impact">潜在利好</div>
+          <span class="tag">比特币</span>
+          <h3>2月60000美元或已形成周期底部</h3>
+          <p>实现市值稳定、历史高RHODL读数及深度负资金费率等指标显示，BTC周期低点可能在今年2月已形成。</p>
+          <div class="impact">正面</div>
+          <p><a href="https://www.coindesk.com/markets/2026/05/20/these-bitcoin-metrics-suggest-february-s-usd60-000-selloff-may-have-marked-the-bottom" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">比特币</span>
+          <h3>分析师预测BTC年底目标25.5万美元</h3>
+          <p>新比特币价格模型给出保守目标价，Bernstein与BitMEX联合创始人Arthur Hayes也预计2026年创历史新高。</p>
+          <div class="impact">正面</div>
+          <p><a href="https://cointelegraph.com/markets/this-bitcoin-price-model-targets-conservative-255k-by-year-end" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">监管</span>
+          <h3>特朗普命令美联储审查加密企业主账户访问权</h3>
+          <p>继Kraken、Ripple、Coinbase和Circle之后，加密企业可能获得美联储支付系统直连机会。</p>
+          <div class="impact">正面</div>
           <p><a href="https://cryptoslate.com/trump-crypto-fed-payment-rails/" target="_blank" rel="noreferrer">Source</a></p>
         </article>
         <article class="event">
-          <span class="tag">监管政策</span>
-          <h3>新加坡吊销Bsquared加密支付牌照</h3>
-          <p>新加坡金管局发现Bsquared在风险管理和利益冲突政策方面存在缺陷，且多次向监管机构提供虚假或误导性信息。</p>
-          <div class="impact">利空</div>
-          <p><a href="https://cointelegraph.com/news/singapore-revokes-crypto-payment-licence-of-bsquared-over-regulatory-breaches" target="_blank" rel="noreferrer">Source</a></p>
+          <span class="tag">监管</span>
+          <h3>南卡罗来纳州长签署法案保护比特币矿工</h3>
+          <p>SB163禁止州机构使用CBDC支付，并保护比特币矿工免受歧视性分区和许可规则约束。</p>
+          <div class="impact">正面</div>
+          <p><a href="https://cointelegraph.com/news/south-carolina-governor-signs-bill-protecting-bitcoin-miners-banning-cbdc" target="_blank" rel="noreferrer">Source</a></p>
         </article>
         <article class="event">
-          <span class="tag">监管政策</span>
-          <h3>欧盟启动MiCA框架审查</h3>
-          <p>欧盟委员会就加密资产市场监管框架发起公开咨询，截止日期为8月31日，询问框架是否需要更新。</p>
+          <span class="tag">项目</span>
+          <h3>Bitwise称HYPE为&quot;最被低估&quot;加密资产</h3>
+          <p>Bitwise首席投资官Matt Hougan认为Hyperliquid代币价格未反映其&quot;全球超级应用&quot;定位潜力，年内涨幅77%仍被低估。</p>
+          <div class="impact">正面</div>
+          <p><a href="https://cointelegraph.com/news/bitwise-says-hyperliquid-most-mispriced-crypto-despite-77-rise-this-year" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">以太坊</span>
+          <h3>Vitalik阐述以太坊隐私措施</h3>
+          <p>以太坊正推进隐私功能建设，被视为区块链大规模采用的关键步骤，对ETH网络长期发展具积极意义。</p>
           <div class="impact">中性</div>
-          <p><a href="https://www.theblock.co/post/402005/european-commission-launches-mica-review-as-global-crypto-regulatory-landscape-shifts" target="_blank" rel="noreferrer">Source</a></p>
-        </article>
-        <article class="event">
-          <span class="tag">技术发展</span>
-          <h3>Vitalik阐述以太坊隐私保护措施</h3>
-          <p>以太坊联合创始人概述了以太坊在隐私保护方面的举措，隐私被广泛认为是区块链技术广泛采用的必要功能。</p>
-          <div class="impact">利好</div>
           <p><a href="https://www.coindesk.com/tech/2026/05/20/vitalik-buterin-outlines-ethereum-s-privacy-measures-here-is-what-it-means-for-the-network-and-eth" target="_blank" rel="noreferrer">Source</a></p>
         </article>
         <article class="event">
-          <span class="tag">市场动态</span>
-          <h3>Hyperliquid代币HYPE今年涨幅达101%</h3>
-          <p>Hyperliquid的代币HYPE与比特币走势脱钩，年内涨幅达101%，平台收入在多个领域爆发式增长。Bitwise称其为&quot;定价最错误&quot;的加密资产。</p>
-          <div class="impact">利好</div>
-          <p><a href="https://decrypt.co/368443/hype-surges-101-this-year-whats-driving-hyperliquids-growth" target="_blank" rel="noreferrer">Source</a></p>
-        </article>
-        <article class="event">
-          <span class="tag">市场动态</span>
-          <h3>Truth Social撤回比特币ETF申请</h3>
-          <p>特朗普媒体科技集团撤回了比特币和比特币以太坊ETF的S-1注册文件，称&quot;目前不追求公开发售&quot;。分析师认为费用战是更合理的解释。</p>
-          <div class="impact">利空</div>
-          <p><a href="https://cryptoslate.com/truth-social-spot-bitcoin-etf-fee-war/" target="_blank" rel="noreferrer">Source</a></p>
-        </article>
-        <article class="event">
-          <span class="tag">市场动态</span>
-          <h3>Tether收购软银在Twenty One Capital的股份</h3>
-          <p>Tether收购了软银在Twenty One Capital的股份，软银代表从董事会辞职，Twenty One Capital股价上涨5%。</p>
-          <div class="impact">利好</div>
-          <p><a href="https://www.theblock.co/post/402015/tether-acquires-softbanks-stake-in-twenty-one-capital-as-share-price-jumps-5" target="_blank" rel="noreferrer">Source</a></p>
-        </article>
-        <article class="event">
-          <span class="tag">市场分析</span>
-          <h3>分析师称BTC二月6万美元或为周期底部</h3>
-          <p>实现市值稳定、历史高位的RHODL指标和深度负资金费率均指向比特币可能在今年早些时候形成周期低点。K33也认为二月低点仍为本次周期最大回撤。</p>
-          <div class="impact">中性</div>
-          <p><a href="https://www.coindesk.com/markets/2026/05/20/these-bitcoin-metrics-suggest-february-s-usd60-000-selloff-may-have-marked-the-bottom/" target="_blank" rel="noreferrer">Source</a></p>
-        </article>
-        <article class="event">
-          <span class="tag">技术发展</span>
-          <h3>Fireblocks推出AI智能体支付支持</h3>
-          <p>Fireblocks宣布加入x402基金会，支持AI智能体进行支付。如果每日使用AI的10亿用户中有一部分将消费权限委托给AI智能体，稳定币采用将大幅增长。</p>
-          <div class="impact">利好</div>
-          <p><a href="https://cointelegraph.com/news/fireblocks-launches-agent-payment-support-for-ai-agents" target="_blank" rel="noreferrer">Source</a></p>
+          <span class="tag">市场</span>
+          <h3>BTC动量减弱，关注74000-76000支撑区间</h3>
+          <p>分析师警告若失守74000-76000关键支撑，可能触发更深幅度回调，下一支撑位看向70000美元。</p>
+          <div class="impact">负面</div>
+          <p><a href="https://cointelegraph.com/markets/bitcoins-momentum-is-fading-traders-have-these-support-levels-in-mind" target="_blank" rel="noreferrer">Source</a></p>
         </article></div></section>
     <section class="columns">
-      <div><h2>Watch Next</h2><ul class="plain-list"><li>BTC关注76000-77000美元区间支撑，本周英伟达财报可能影响宏观情绪</li><li>ETH关注2000-2100美元支撑，需观察本周能否企稳</li><li>HYPE观察Hyperliquid生态系统扩展和代币解锁情况</li><li>UNI关注UniswapDEX交易量和V4版本进展</li><li>关注比特币ETF资金流向变化，机构动向是近期关键变量</li></ul></div>
-      <div><h2>Risk Notes</h2><ul class="plain-list"><li>本周英伟达财报将发布，科技股走势可能影响加密市场风险偏好</li><li>BTC在76000美元一线存在关键支撑，若失守或测试70000美元</li><li>比特币ETF上周净流出超10亿美元，机构情绪需持续跟踪</li><li>以太坊周线下跌6.83%，近期走势相对疲软，需关注2100美元支撑</li><li>宏观层面美债收益率上升，美联储政策不确定性可能持续影响加密市场</li></ul></div>
+      <div><h2>Watch Next</h2><ul class="plain-list"><li>HYPE/USDT - Bitwise强推，综合得分77.2，突破51.75阻力后有望测试55美元</li><li>ZEC/USDT - 综合得分73.1，8小时RSI 80.87超买，短期阻力622.62，量能扩张明显</li><li>LIT/USDT - 综合得分69.2，8小时RSI 89.25极强，需关注1.2569阻力突破情况</li><li>BTC/USDT - 等待76000支撑确认，跌破则看向70000一线</li><li>ETH/USDT - 关注2077美元支撑有效性，2000美元为关键防守位</li></ul></div>
+      <div><h2>Risk Notes</h2><ul class="plain-list"><li>BTC目前低于200日均线约82000美元，空头格局明显，止损需设紧</li><li>ETH周跌幅近10%，若失守2000美元支撑可能加速下行</li><li>加密ETF连续流出超10亿美元，机构情绪偏谨慎</li><li>今日关注FOMC纪要与英伟达财报，宏观风险偏好或生变</li><li>LIT与HYPE短期RSI偏高，追高需控仓，设好止盈止损</li></ul></div>
     </section>
-    <footer>Generated at 2026-05-20 14:27 UTC. This automated report summarizes public information only and is not investment advice.</footer>
+    <footer>Generated at 2026-05-20 15:03 UTC. This automated report summarizes public information only and is not investment advice.</footer>
   </div>
 </body>
 </html>
