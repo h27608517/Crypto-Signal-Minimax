@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal Brief</title>
+  <style>
+    :root { --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    main { max-width: 920px; margin: 0 auto; padding: 64px 22px; }
+    .label { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; margin-bottom: 18px; }
+    h1 { font-size: clamp(36px, 7vw, 72px); line-height: .95; margin: 0 0 18px; letter-spacing: 0; font-weight: 700; }
+    p { color: var(--muted); font-size: 18px; line-height: 1.7; max-width: 680px; font-weight: 300; }
+    .latest { display: inline-flex; margin: 22px 0 34px; padding: 10px 0; color: var(--ink); text-decoration: none; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 18px; }
+    .report-link { display: block; padding: 14px 16px; color: var(--ink); border: 1px dashed var(--line); border-radius: 2px; text-decoration: none; background: transparent; font-weight: 300; }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="label">Personal</span>
+    <h1>Personal Brief</h1>
+    <p>Bungie告别《命运2》，Switch 2配件与捆绑包促销活跃；BTC横盘整理，NEAR动态分片即将上线；美对台军售因中东局势暂停。</p>
+    <a class="latest" href="reports/personal-2026-05-22.html">Latest report</a>
+    <h2>Archive</h2>
+    <div class="grid"><a class="report-link" href="reports/personal-2026-05-22.html">2026-05-22</a></div>
+  </main>
+</body>
+</html>
