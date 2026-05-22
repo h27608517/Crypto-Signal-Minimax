@@ -1297,7 +1297,38 @@ def render_index(latest_report: str, analysis: dict[str, Any], personal_latest: 
     :root {{ --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --blue: #007AFF; }}
     * {{ box-sizing: border-box; }}
     body {{ margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }}
-    main {{ max-width: 1180px; margin: 0 auto; padding: 64px 22px; }}
+    body::before {{
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(26,26,26,.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(26,26,26,.025) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.8), transparent 76%);
+    }}
+    main {{ position: relative; max-width: 1180px; margin: 0 auto; padding: 54px 22px 64px; }}
+    .signal-stage {{ position: relative; height: 184px; margin: 0 0 34px; overflow: hidden; border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); }}
+    .signal-stage::before, .signal-stage::after {{ content: ""; position: absolute; left: 0; right: 0; height: 1px; background: var(--ink); opacity: .18; }}
+    .signal-stage::before {{ top: 38px; }}
+    .signal-stage::after {{ bottom: 36px; }}
+    .signal-track {{ position: absolute; inset: 0; display: grid; place-items: center; }}
+    .signal-line {{ position: absolute; width: 145%; height: 58px; border-top: 1px solid rgba(0,122,255,.72); transform: translateX(-8%) skewX(-18deg); animation: signalDrift 9s linear infinite; }}
+    .signal-line:nth-child(2) {{ top: 78px; border-color: rgba(255,59,48,.66); animation-duration: 12s; animation-direction: reverse; }}
+    .signal-line:nth-child(3) {{ top: 112px; border-style: dashed; border-color: rgba(0,168,107,.56); animation-duration: 15s; }}
+    .signal-node {{ position: absolute; width: 7px; height: 7px; border: 1px solid currentColor; background: var(--paper); color: var(--blue); animation: nodePulse 2.8s ease-in-out infinite; }}
+    .signal-node.one {{ left: 12%; top: 48px; }}
+    .signal-node.two {{ left: 39%; top: 108px; color: var(--accent); animation-delay: .4s; }}
+    .signal-node.three {{ right: 18%; top: 70px; color: #00A86B; animation-delay: .8s; }}
+    .signal-ticker {{ position: absolute; left: 0; right: 0; bottom: 12px; display: flex; gap: 28px; white-space: nowrap; color: var(--muted); font-size: 11px; font-weight: 300; letter-spacing: .08em; text-transform: uppercase; animation: tickerFlow 20s linear infinite; }}
+    .signal-ticker span {{ display: inline-flex; align-items: center; gap: 8px; }}
+    .signal-ticker b {{ color: var(--ink); font-weight: 400; }}
+    .signal-title {{ position: absolute; left: 0; top: 56px; max-width: 560px; font-size: clamp(34px, 7vw, 76px); line-height: .9; font-weight: 700; letter-spacing: 0; }}
+    .signal-kicker {{ position: absolute; right: 0; top: 20px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; writing-mode: vertical-rl; }}
+    @keyframes signalDrift {{ from {{ transform: translateX(-16%) skewX(-18deg); }} to {{ transform: translateX(6%) skewX(-18deg); }} }}
+    @keyframes nodePulse {{ 0%, 100% {{ transform: scale(1); opacity: .55; }} 50% {{ transform: scale(1.75); opacity: 1; }} }}
+    @keyframes tickerFlow {{ from {{ transform: translateX(0); }} to {{ transform: translateX(-42%); }} }}
     h1 {{ font-size: clamp(36px, 7vw, 78px); line-height: .92; margin: 0 0 42px; letter-spacing: 0; font-weight: 700; }}
     h2 {{ font-size: 28px; margin: 0 0 16px; font-weight: 700; }}
     h3 {{ font-size: 14px; margin: 28px 0 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }}
@@ -1308,12 +1339,28 @@ def render_index(latest_report: str, analysis: dict[str, Any], personal_latest: 
     .latest {{ display: inline-flex; align-items: center; gap: 10px; margin: 20px 0 8px; padding: 10px 0; color: var(--ink); text-decoration: none; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; font-size: 13px; font-weight: 700; text-transform: uppercase; }}
     .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 12px; }}
     .report-link {{ display: block; padding: 12px 10px; color: var(--ink); border: 1px dashed var(--line); border-radius: 2px; text-decoration: none; background: transparent; font-weight: 300; }}
-    @media (max-width: 820px) {{ .columns {{ grid-template-columns: 1fr; }} }}
+    @media (max-width: 820px) {{ .columns {{ grid-template-columns: 1fr; }} .signal-stage {{ height: 230px; }} .signal-title {{ top: 64px; }} .signal-kicker {{ display: none; }} }}
+    @media (prefers-reduced-motion: reduce) {{ .signal-line, .signal-node, .signal-ticker {{ animation: none; }} }}
   </style>
 </head>
 <body>
   <main>
-    <h1>Daily Intelligence</h1>
+    <div class="signal-stage" aria-hidden="true">
+      <div class="signal-track">
+        <i class="signal-line"></i>
+        <i class="signal-line"></i>
+        <i class="signal-line"></i>
+        <i class="signal-node one"></i>
+        <i class="signal-node two"></i>
+        <i class="signal-node three"></i>
+      </div>
+      <div class="signal-title">Daily Intelligence</div>
+      <div class="signal-kicker">Market / World / Work</div>
+      <div class="signal-ticker">
+        <span><b>BTC</b> signal scan</span><span><b>OKX</b> portfolio sync</span><span><b>TA</b> 24H / 8H</span><span><b>WORLD</b> brief</span><span><b>GAMES</b> industry pulse</span>
+        <span><b>BTC</b> signal scan</span><span><b>OKX</b> portfolio sync</span><span><b>TA</b> 24H / 8H</span><span><b>WORLD</b> brief</span><span><b>GAMES</b> industry pulse</span>
+      </div>
+    </div>
     <div class="columns">
       <section class="daily-panel">
         <span class="label">Crypto</span>
