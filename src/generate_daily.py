@@ -27,7 +27,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 PUBLIC = ROOT / "public"
 REPORTS = PUBLIC / "reports"
+PERSONAL = PUBLIC / "personal"
+PERSONAL_REPORTS = PERSONAL / "reports"
 SOURCES_FILE = SRC / "sources.json"
+PERSONAL_SOURCES_FILE = SRC / "personal_sources.json"
 STABLE_ASSETS = {"USDT", "USDC", "DAI", "FDUSD", "TUSD", "USD", "EUR", "CNY"}
 DEFAULT_CANDIDATES = ["BTC", "ETH", "SOL", "BNB", "XRP", "DOGE", "ADA", "AVAX", "LINK", "TON"]
 SYMBOL_ALIASES = {
@@ -110,6 +113,10 @@ def load_config() -> dict[str, Any]:
     return json.loads(SOURCES_FILE.read_text(encoding="utf-8"))
 
 
+def load_personal_config() -> dict[str, Any]:
+    return json.loads(PERSONAL_SOURCES_FILE.read_text(encoding="utf-8"))
+
+
 def parse_feed(xml_text: str, source_name: str) -> list[NewsItem]:
     root = ET.fromstring(xml_text)
     nodes = [node for node in root.iter() if local_name(node.tag) in {"item", "entry"}]
@@ -157,6 +164,29 @@ def fetch_news(config: dict[str, Any]) -> list[NewsItem]:
             seen.add(key)
             unique.append(item)
     return unique[:40]
+
+
+def group_news_by_interest(news: list[NewsItem], interests: list[dict[str, Any]]) -> dict[str, list[NewsItem]]:
+    grouped: dict[str, list[NewsItem]] = {item["key"]: [] for item in interests}
+    overflow: list[NewsItem] = []
+    for news_item in news:
+        haystack = f"{news_item.title} {news_item.summary}".lower()
+        matched = False
+        for interest in interests:
+            keywords = [str(keyword).lower() for keyword in interest.get("keywords", [])]
+            if any(keyword in haystack for keyword in keywords):
+                grouped[interest["key"]].append(news_item)
+                matched = True
+        if not matched:
+            overflow.append(news_item)
+
+    for interest in interests:
+        key = interest["key"]
+        if len(grouped[key]) < 3:
+            needed = 3 - len(grouped[key])
+            grouped[key].extend(overflow[:needed])
+        grouped[key] = grouped[key][:9]
+    return grouped
 
 
 def fetch_market(config: dict[str, Any]) -> list[dict[str, Any]]:
@@ -764,6 +794,84 @@ def fallback_analysis(report_date: str, market: list[dict[str, Any]], news: list
     }
 
 
+def build_personal_prompt(report_date: str, config: dict[str, Any], grouped: dict[str, list[NewsItem]]) -> str:
+    payload = {}
+    for interest in config.get("interests", []):
+        key = interest["key"]
+        payload[interest["label"]] = [
+            {
+                "source": item.source,
+                "title": item.title,
+                "summary": item.summary,
+                "published": item.published,
+                "url": item.link,
+            }
+            for item in grouped.get(key, [])[:9]
+        ]
+    data_json = json.dumps(payload, ensure_ascii=False, indent=2)
+    return f"""
+You are a concise personal intelligence editor writing in Chinese.
+Create a personal daily intelligence report for {report_date}.
+
+Rules:
+1. Return strict JSON only. Do not return Markdown or code fences.
+2. JSON must include:
+   - title: string
+   - brief: string, under 80 Chinese characters
+   - sections: array of objects with category, events
+3. Each sections[].events must contain 3-9 objects with title, summary, why_it_matters, source_url.
+4. Categories must match the configured interest labels.
+5. Do not invent facts. Use only the supplied source items.
+6. Tone: sharp, calm, useful for a morning personal/work briefing.
+
+Configured interests and source items:
+{data_json}
+""".strip()
+
+
+def fallback_personal_analysis(report_date: str, config: dict[str, Any], grouped: dict[str, list[NewsItem]]) -> dict[str, Any]:
+    sections = []
+    for interest in config.get("interests", []):
+        events = [
+            {
+                "title": item.title,
+                "summary": item.summary or "Source did not provide a summary.",
+                "why_it_matters": "Worth monitoring for personal or work context.",
+                "source_url": item.link,
+            }
+            for item in grouped.get(interest["key"], [])[:9]
+        ]
+        sections.append({"category": interest["label"], "events": events})
+    return {
+        "title": f"{report_date} Personal Brief",
+        "brief": "Personal source collection generated; MiniMax summary unavailable.",
+        "sections": sections,
+    }
+
+
+def call_minimax_json(prompt: str) -> dict[str, Any] | None:
+    api_key = os.getenv("MINIMAX_API_KEY")
+    if not api_key or OpenAI is None:
+        return None
+
+    model = os.getenv("MINIMAX_MODEL", "MiniMax-M2.7")
+    base_url = os.getenv("MINIMAX_BASE_URL", "https://api.minimaxi.com/v1")
+    client = OpenAI(api_key=api_key, base_url=base_url)
+    response = client.chat.completions.create(
+        model=model,
+        temperature=0.2,
+        messages=[
+            {"role": "system", "content": "You are a careful intelligence editor. Return only valid JSON."},
+            {"role": "user", "content": prompt},
+        ],
+    )
+    text = response.choices[0].message.content or ""
+    match = re.search(r"\{.*\}", text, re.S)
+    if not match:
+        raise ValueError("MiniMax response did not contain JSON")
+    return json.loads(match.group(0))
+
+
 def call_minimax(prompt: str) -> dict[str, Any] | None:
     api_key = os.getenv("MINIMAX_API_KEY")
     if not api_key or OpenAI is None:
@@ -1031,48 +1139,48 @@ def render_report(
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(analysis.get("title"))}</title>
   <style>
-    :root {{ color-scheme: light; --ink: #171717; --muted: #62615d; --paper: #f6f0e6; --panel: #fffaf2; --line: #ded5c8; --accent: #0f766e; --hot: #c2410c; }}
+    :root {{ color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }}
     * {{ box-sizing: border-box; }}
-    body {{ margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }}
+    body {{ margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }}
     a {{ color: inherit; }}
     .wrap {{ max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }}
-    header {{ display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px solid var(--line); }}
-    .date {{ color: var(--accent); font-weight: 750; margin-bottom: 14px; }}
-    h1 {{ font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; }}
-    .brief {{ font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; }}
-    section {{ padding: 28px 0; border-bottom: 1px solid var(--line); }}
-    h2 {{ font-size: 22px; margin: 0 0 18px; }}
+    header {{ display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }}
+    .date {{ color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }}
+    h1 {{ font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }}
+    .brief {{ font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }}
+    section {{ padding: 28px 0; border-bottom: 1px dashed var(--line); }}
+    h2 {{ font-size: 22px; margin: 0 0 18px; font-weight: 700; }}
     .market {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; }}
-    .coin, .event {{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px; }}
+    .coin, .event {{ background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }}
     .coin b {{ display: block; font-size: 15px; margin-bottom: 8px; }}
-    .price {{ font-size: 22px; font-weight: 780; }}
-    .change {{ margin-top: 8px; color: var(--muted); font-size: 14px; }}
+    .price {{ font-size: 22px; font-weight: 300; font-family: Inter, "Helvetica Neue", sans-serif; }}
+    .change {{ margin-top: 8px; color: var(--muted); font-size: 14px; font-weight: 300; }}
     .up {{ color: var(--accent); }}
     .down {{ color: var(--hot); }}
     .summary-list {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; padding: 0; margin: 0; list-style: none; }}
-    .summary-list li {{ background: rgba(255, 250, 242, .72); border-left: 3px solid var(--accent); padding: 12px 14px; line-height: 1.6; }}
+    .summary-list li {{ background: var(--panel); border: 1px dashed var(--line); border-left: 2px solid var(--accent); padding: 12px 14px; line-height: 1.6; font-weight: 300; }}
     .events {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }}
-    .tag {{ display: inline-block; color: var(--accent); font-size: 13px; font-weight: 760; margin-bottom: 10px; }}
-    .event h3 {{ font-size: 18px; line-height: 1.35; margin: 0 0 10px; }}
-    .event p {{ color: var(--muted); line-height: 1.65; margin: 0 0 12px; }}
-    .impact {{ font-size: 14px; color: var(--ink); }}
+    .tag {{ display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }}
+    .event h3 {{ font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }}
+    .event p {{ color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }}
+    .impact {{ font-size: 14px; color: var(--ink); font-weight: 300; }}
     .columns {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }}
     .portfolio-summary {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px; }}
-    .portfolio-card {{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }}
+    .portfolio-card {{ background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 14px 16px; box-shadow: none; }}
     .portfolio-card span {{ display: block; color: var(--muted); font-size: 13px; margin-bottom: 8px; }}
-    .portfolio-card b {{ font-size: 21px; }}
+    .portfolio-card b {{ font-size: 21px; font-weight: 300; font-family: Inter, "Helvetica Neue", sans-serif; }}
     .table-wrap {{ margin-top: 18px; overflow-x: auto; }}
     .table-wrap h3 {{ margin: 0 0 10px; font-size: 16px; }}
-    table {{ width: 100%; border-collapse: collapse; min-width: 680px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }}
-    th, td {{ padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; white-space: nowrap; }}
-    th {{ color: var(--muted); font-size: 12px; text-transform: uppercase; }}
+    table {{ width: 100%; border-collapse: collapse; min-width: 680px; background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; overflow: hidden; box-shadow: none; }}
+    th, td {{ padding: 11px 12px; border-bottom: 1px dashed var(--line); text-align: left; font-size: 14px; white-space: nowrap; font-weight: 300; }}
+    th {{ color: var(--muted); font-size: 12px; text-transform: uppercase; font-weight: 700; }}
     tr:last-child td {{ border-bottom: 0; }}
-    .notice {{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px; color: var(--muted); line-height: 1.6; }}
-    .action {{ display: inline-block; min-width: 56px; padding: 4px 8px; border-radius: 999px; text-align: center; font-size: 12px; font-weight: 760; background: #ece5d8; color: var(--ink); }}
-    .action-buy, .action-add {{ background: rgba(15, 118, 110, .14); color: var(--accent); }}
-    .action-reduce, .action-sell {{ background: rgba(194, 65, 12, .14); color: var(--hot); }}
+    .notice {{ background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }}
+    .action {{ display: inline-block; min-width: 56px; padding: 4px 0; border-radius: 0; text-align: center; font-size: 12px; font-weight: 700; background: transparent; color: var(--ink); border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; text-transform: uppercase; }}
+    .action-buy, .action-add {{ color: var(--accent); }}
+    .action-reduce, .action-sell {{ color: var(--hot); }}
     .plain-list {{ margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }}
-    footer {{ padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; }}
+    footer {{ padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }}
     @media (max-width: 760px) {{ header {{ grid-template-columns: 1fr; }} .brief {{ font-size: 18px; }} }}
   </style>
 </head>
@@ -1100,33 +1208,166 @@ def render_report(
 </html>"""
 
 
-def render_index(latest_report: str, analysis: dict[str, Any]) -> str:
+def render_personal_report(report_date: str, analysis: dict[str, Any]) -> str:
+    sections_html = []
+    for section in analysis.get("sections", []):
+        events = "".join(
+            f"""
+        <article class="event">
+          <span class="tag">{esc(section.get("category"))}</span>
+          <h3>{esc(item.get("title"))}</h3>
+          <p>{esc(item.get("summary"))}</p>
+          <div class="impact">{esc(item.get("why_it_matters"))}</div>
+          {f'<p><a href="{esc(item.get("source_url"))}" target="_blank" rel="noreferrer">Source</a></p>' if item.get("source_url") else ""}
+        </article>"""
+            for item in section.get("events", [])[:9]
+        ) or '<div class="notice">No source items available for this topic.</div>'
+        sections_html.append(
+            f"""
+    <section>
+      <h2>{esc(section.get("category"))}</h2>
+      <div class="events">{events}</div>
+    </section>"""
+        )
+
+    generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    return f"""<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{esc(analysis.get("title"))}</title>
+  <style>
+    :root {{ color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }}
+    * {{ box-sizing: border-box; }}
+    body {{ margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }}
+    a {{ color: inherit; }}
+    .wrap {{ max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }}
+    header {{ display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }}
+    .date {{ color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }}
+    h1 {{ font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }}
+    .brief {{ font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }}
+    section {{ padding: 28px 0; border-bottom: 1px dashed var(--line); }}
+    h2 {{ font-size: 22px; margin: 0 0 18px; font-weight: 700; }}
+    .events {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }}
+    .event {{ background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }}
+    .tag {{ display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }}
+    .event h3 {{ font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }}
+    .event p {{ color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }}
+    .impact {{ font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 300; }}
+    .notice {{ background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }}
+    footer {{ padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }}
+    @media (max-width: 760px) {{ header {{ grid-template-columns: 1fr; }} .brief {{ font-size: 18px; }} }}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">{esc(report_date)} · Personal Brief</div>
+        <h1>{esc(analysis.get("title"))}</h1>
+      </div>
+      <p class="brief">{esc(analysis.get("brief"))}</p>
+    </header>
+    {"".join(sections_html)}
+    <footer>Generated at {generated_at}. This automated brief summarizes public information for personal awareness.</footer>
+  </div>
+</body>
+</html>"""
+
+
+def render_index(latest_report: str, analysis: dict[str, Any], personal_latest: str, personal_analysis: dict[str, Any]) -> str:
     reports = sorted(REPORTS.glob("crypto-*.html"), reverse=True)
     links = "\n".join(
         f'<a class="report-link" href="reports/{path.name}">{path.stem.replace("crypto-", "")}</a>'
         for path in reports[:30]
+    )
+    personal_reports = sorted(PERSONAL_REPORTS.glob("personal-*.html"), reverse=True)
+    personal_links = "\n".join(
+        f'<a class="report-link" href="personal/reports/{path.name}">{path.stem.replace("personal-", "")}</a>'
+        for path in personal_reports[:30]
     )
     return f"""<!doctype html>
 <html lang="zh-Hans">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crypto Daily</title>
+  <title>Daily Intelligence</title>
   <style>
-    body {{ margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f7f3ec; color: #191919; }}
-    main {{ max-width: 920px; margin: 0 auto; padding: 64px 22px; }}
-    h1 {{ font-size: clamp(36px, 7vw, 72px); line-height: .95; margin: 0 0 18px; letter-spacing: 0; }}
-    p {{ color: #555; font-size: 18px; line-height: 1.7; max-width: 680px; }}
-    .latest {{ display: inline-flex; align-items: center; gap: 10px; margin: 22px 0 34px; padding: 13px 18px; background: #111; color: white; text-decoration: none; border-radius: 8px; }}
-    .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 18px; }}
-    .report-link {{ display: block; padding: 14px 16px; color: #111; border: 1px solid #d8d0c4; border-radius: 8px; text-decoration: none; background: #fffaf2; }}
+    :root {{ --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --blue: #007AFF; }}
+    * {{ box-sizing: border-box; }}
+    body {{ margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }}
+    main {{ max-width: 1180px; margin: 0 auto; padding: 64px 22px; }}
+    h1 {{ font-size: clamp(36px, 7vw, 78px); line-height: .92; margin: 0 0 42px; letter-spacing: 0; font-weight: 700; }}
+    h2 {{ font-size: 28px; margin: 0 0 16px; font-weight: 700; }}
+    h3 {{ font-size: 14px; margin: 28px 0 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }}
+    p {{ color: var(--muted); font-size: 17px; line-height: 1.7; font-weight: 300; }}
+    .columns {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }}
+    .daily-panel {{ background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 22px; min-height: 460px; box-shadow: none; }}
+    .label {{ display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; margin-bottom: 18px; }}
+    .latest {{ display: inline-flex; align-items: center; gap: 10px; margin: 20px 0 8px; padding: 10px 0; color: var(--ink); text-decoration: none; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; font-size: 13px; font-weight: 700; text-transform: uppercase; }}
+    .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 12px; }}
+    .report-link {{ display: block; padding: 12px 10px; color: var(--ink); border: 1px dashed var(--line); border-radius: 2px; text-decoration: none; background: transparent; font-weight: 300; }}
+    @media (max-width: 820px) {{ .columns {{ grid-template-columns: 1fr; }} }}
   </style>
 </head>
 <body>
   <main>
-    <h1>Crypto Daily</h1>
-    <p>{esc(analysis.get("brief", "Daily automated crypto market briefing."))}</p>
-    <a class="latest" href="reports/{esc(latest_report)}">Latest report</a>
+    <h1>Daily Intelligence</h1>
+    <div class="columns">
+      <section class="daily-panel">
+        <span class="label">Crypto</span>
+        <h2>Crypto Daily</h2>
+        <p>{esc(analysis.get("brief", "Daily automated crypto market briefing."))}</p>
+        <a class="latest" href="reports/{esc(latest_report)}">Latest report</a>
+        <h3>Archive</h3>
+        <div class="grid">{links}</div>
+      </section>
+      <section class="daily-panel">
+        <span class="label">Personal</span>
+        <h2>Personal Brief</h2>
+        <p>{esc(personal_analysis.get("brief", "Daily personal and work intelligence briefing."))}</p>
+        <a class="latest" href="personal/reports/{esc(personal_latest)}">Latest report</a>
+        <h3>Archive</h3>
+        <div class="grid">{personal_links}</div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>"""
+
+
+def render_personal_archive(personal_latest: str, personal_analysis: dict[str, Any]) -> str:
+    personal_reports = sorted(PERSONAL_REPORTS.glob("personal-*.html"), reverse=True)
+    links = "\n".join(
+        f'<a class="report-link" href="reports/{path.name}">{path.stem.replace("personal-", "")}</a>'
+        for path in personal_reports[:30]
+    )
+    return f"""<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal Brief</title>
+  <style>
+    :root {{ --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; }}
+    * {{ box-sizing: border-box; }}
+    body {{ margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }}
+    main {{ max-width: 920px; margin: 0 auto; padding: 64px 22px; }}
+    .label {{ display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; margin-bottom: 18px; }}
+    h1 {{ font-size: clamp(36px, 7vw, 72px); line-height: .95; margin: 0 0 18px; letter-spacing: 0; font-weight: 700; }}
+    p {{ color: var(--muted); font-size: 18px; line-height: 1.7; max-width: 680px; font-weight: 300; }}
+    .latest {{ display: inline-flex; margin: 22px 0 34px; padding: 10px 0; color: var(--ink); text-decoration: none; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; font-size: 13px; font-weight: 700; text-transform: uppercase; }}
+    .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 18px; }}
+    .report-link {{ display: block; padding: 14px 16px; color: var(--ink); border: 1px dashed var(--line); border-radius: 2px; text-decoration: none; background: transparent; font-weight: 300; }}
+  </style>
+</head>
+<body>
+  <main>
+    <span class="label">Personal</span>
+    <h1>Personal Brief</h1>
+    <p>{esc(personal_analysis.get("brief", "Daily personal and work intelligence briefing."))}</p>
+    <a class="latest" href="reports/{esc(personal_latest)}">Latest report</a>
     <h2>Archive</h2>
     <div class="grid">{links}</div>
   </main>
@@ -1140,24 +1381,41 @@ def render(
     market: list[dict[str, Any]],
     okx: dict[str, Any],
     technical: dict[str, Any],
+    personal_analysis: dict[str, Any],
 ) -> None:
     PUBLIC.mkdir(exist_ok=True)
     REPORTS.mkdir(parents=True, exist_ok=True)
+    PERSONAL.mkdir(parents=True, exist_ok=True)
+    PERSONAL_REPORTS.mkdir(parents=True, exist_ok=True)
     report_name = f"crypto-{report_date}.html"
+    personal_report_name = f"personal-{report_date}.html"
     (REPORTS / report_name).write_text(render_report(report_date, analysis, market, okx, technical), encoding="utf-8")
-    (PUBLIC / "index.html").write_text(render_index(report_name, analysis), encoding="utf-8")
+    (PERSONAL_REPORTS / personal_report_name).write_text(render_personal_report(report_date, personal_analysis), encoding="utf-8")
+    (PUBLIC / "index.html").write_text(render_index(report_name, analysis, personal_report_name, personal_analysis), encoding="utf-8")
+    (PERSONAL / "index.html").write_text(render_personal_archive(personal_report_name, personal_analysis), encoding="utf-8")
 
 
 def main() -> None:
     report_date = os.getenv("REPORT_DATE") or datetime.now().strftime("%Y-%m-%d")
     config = load_config()
+    personal_config = load_personal_config()
     news = fetch_news(config)
+    personal_news = fetch_news(personal_config)
+    personal_grouped = group_news_by_interest(personal_news, personal_config.get("interests", []))
     market = fetch_market(config)
     okx = fetch_okx_portfolio()
     technical = fetch_technical_analysis(okx)
     prompt = build_prompt(report_date, market, news, okx, technical)
-    analysis = call_minimax(prompt) or fallback_analysis(report_date, market, news)
-    render(report_date, analysis, market, okx, technical)
+    personal_prompt = build_personal_prompt(report_date, personal_config, personal_grouped)
+    try:
+        analysis = call_minimax(prompt) or fallback_analysis(report_date, market, news)
+    except Exception:
+        analysis = fallback_analysis(report_date, market, news)
+    try:
+        personal_analysis = call_minimax_json(personal_prompt) or fallback_personal_analysis(report_date, personal_config, personal_grouped)
+    except Exception:
+        personal_analysis = fallback_personal_analysis(report_date, personal_config, personal_grouped)
+    render(report_date, analysis, market, okx, technical, personal_analysis)
     print(f"Generated public/reports/crypto-{report_date}.html")
 
 

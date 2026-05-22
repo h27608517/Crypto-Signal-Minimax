@@ -1,0 +1,58 @@
+{
+  "interests": [
+    {
+      "key": "gaming",
+      "label": "游戏产业",
+      "keywords": ["game", "gaming", "nintendo", "sony", "playstation", "xbox", "steam", "tencent games", "unity", "unreal"]
+    },
+    {
+      "key": "crypto",
+      "label": "加密货币",
+      "keywords": ["bitcoin", "ethereum", "crypto", "stablecoin", "blockchain", "token", "defi", "etf"]
+    },
+    {
+      "key": "world_politics",
+      "label": "世界政治",
+      "keywords": ["election", "government", "policy", "geopolitics", "white house", "china", "taiwan", "europe", "war"]
+    },
+    {
+      "key": "taiwan",
+      "label": "台湾新闻",
+      "keywords": ["taiwan", "taipei", "tsmc", "dpp", "kmt", "赖清德", "台北", "台湾", "台积电"]
+    }
+  ],
+  "feeds": [
+    {
+      "name": "Reuters World",
+      "url": "https://feeds.reuters.com/reuters/worldNews"
+    },
+    {
+      "name": "BBC World",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml"
+    },
+    {
+      "name": "The Verge Gaming",
+      "url": "https://www.theverge.com/rss/games/index.xml"
+    },
+    {
+      "name": "GamesIndustry.biz",
+      "url": "https://www.gamesindustry.biz/rss"
+    },
+    {
+      "name": "CoinDesk",
+      "url": "https://www.coindesk.com/arc/outboundfeeds/rss/"
+    },
+    {
+      "name": "Cointelegraph",
+      "url": "https://cointelegraph.com/rss"
+    },
+    {
+      "name": "Focus Taiwan",
+      "url": "https://focustaiwan.tw/rss"
+    },
+    {
+      "name": "Taiwan News",
+      "url": "https://www.taiwannews.com.tw/rss"
+    }
+  ]
+}
