@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2026-06-06 Crypto Daily</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .market { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; }
+    .coin, .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .coin b { display: block; font-size: 15px; margin-bottom: 8px; }
+    .price { font-size: 22px; font-weight: 300; font-family: Inter, "Helvetica Neue", sans-serif; }
+    .change { margin-top: 8px; color: var(--muted); font-size: 14px; font-weight: 300; }
+    .up { color: var(--accent); }
+    .down { color: var(--hot); }
+    .summary-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; padding: 0; margin: 0; list-style: none; }
+    .summary-list li { background: var(--panel); border: 1px dashed var(--line); border-left: 2px solid var(--accent); padding: 12px 14px; line-height: 1.6; font-weight: 300; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); font-weight: 300; }
+    .columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+    .portfolio-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px; }
+    .portfolio-card { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 14px 16px; box-shadow: none; }
+    .portfolio-card span { display: block; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    .portfolio-card b { font-size: 21px; font-weight: 300; font-family: Inter, "Helvetica Neue", sans-serif; }
+    .table-wrap { margin-top: 18px; overflow-x: auto; }
+    .table-wrap h3 { margin: 0 0 10px; font-size: 16px; }
+    table { width: 100%; border-collapse: collapse; min-width: 680px; background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; overflow: hidden; box-shadow: none; }
+    th, td { padding: 11px 12px; border-bottom: 1px dashed var(--line); text-align: left; font-size: 14px; white-space: nowrap; font-weight: 300; }
+    th { color: var(--muted); font-size: 12px; text-transform: uppercase; font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    .action { display: inline-block; min-width: 56px; padding: 4px 0; border-radius: 0; text-align: center; font-size: 12px; font-weight: 700; background: transparent; color: var(--ink); border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; text-transform: uppercase; }
+    .action-buy, .action-add { color: var(--accent); }
+    .action-reduce, .action-sell { color: var(--hot); }
+    .plain-list { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-06-06 · Crypto Daily</div>
+        <h1>2026-06-06 Crypto Daily</h1>
+      </div>
+      <p class="brief">Data fetched successfully. MiniMax is not configured, so this is a basic fallback report.</p>
+    </header>
+    <section><h2>Market Snapshot</h2><div class="market">
+          <div class="coin">
+            <b>Bitcoin · BTC</b>
+            <div class="price">$60,930.00</div>
+            <div class="change down">24h -3.04%</div>
+          </div>
+          <div class="coin">
+            <b>Ethereum · ETH</b>
+            <div class="price">$1,577.02</div>
+            <div class="change down">24h -9.30%</div>
+          </div>
+          <div class="coin">
+            <b>BNB · BNB</b>
+            <div class="price">$576.22</div>
+            <div class="change down">24h -3.73%</div>
+          </div>
+          <div class="coin">
+            <b>XRP · XRP</b>
+            <div class="price">$1.10</div>
+            <div class="change down">24h -4.12%</div>
+          </div>
+          <div class="coin">
+            <b>Solana · SOL</b>
+            <div class="price">$63.63</div>
+            <div class="change down">24h -6.28%</div>
+          </div>
+          <div class="coin">
+            <b>Dogecoin · DOGE</b>
+            <div class="price">$0.08</div>
+            <div class="change down">24h -6.31%</div>
+          </div></div></section>
+    
+    <section>
+      <h2>OKX Portfolio</h2>
+      <div class="portfolio-summary">
+        <div class="portfolio-card">
+          <span>Total Equity</span>
+          <b>$633.31</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Adjusted Equity</span>
+          <b>-</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Initial Margin</span>
+          <b>-</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Maintenance Margin</span>
+          <b>-</b>
+        </div></div>
+      <div class="table-wrap">
+        <h3>Asset Balances</h3>
+        <table>
+          <thead><tr><th>Asset</th><th>Equity</th><th>Cash</th><th>USD Value</th><th>Spot Avg Price</th><th>Spot Upnl</th><th>Position Upnl</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>BTC</td>
+            <td>0.00696701</td>
+            <td>0.00696701</td>
+            <td>$424.37</td>
+            <td>78,441.3598</td>
+            <td>$-122.13</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>LIT</td>
+            <td>76.6493</td>
+            <td>76.6493</td>
+            <td>$109.71</td>
+            <td>1.5315</td>
+            <td>$-7.68</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>BNB</td>
+            <td>0.1212746</td>
+            <td>0.1212746</td>
+            <td>$69.87</td>
+            <td>658.1828</td>
+            <td>$-9.95</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>USDT</td>
+            <td>28.726</td>
+            <td>28.726</td>
+            <td>$28.72</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>AVAX</td>
+            <td>0.07338369</td>
+            <td>0.07338369</td>
+            <td>$0.49</td>
+            <td>8.8968</td>
+            <td>$-0.16</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>ETH</td>
+            <td>0.00009619</td>
+            <td>0.00009619</td>
+            <td>$0.15</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>HYPE</td>
+            <td>0.000068</td>
+            <td>0.000068</td>
+            <td>$0.00</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>BERA</td>
+            <td>0.000876</td>
+            <td>0.000876</td>
+            <td>$0.00</td>
+            <td>7.9618</td>
+            <td>$-0.01</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>OKSOL</td>
+            <td>0.00000076</td>
+            <td>0.00000076</td>
+            <td>$0.00</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>SOL</td>
+            <td>0.00000003</td>
+            <td>0.00000003</td>
+            <td>$0.00</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr></tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <h3>Open Positions</h3>
+        <table>
+          <thead><tr><th>Instrument</th><th>Side</th><th>Size</th><th>Avg Price</th><th>Mark Price</th><th>Position Upnl</th><th>PnL %</th></tr></thead>
+          <tbody><tr><td colspan="7">No open derivative positions.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Technical Outlook</h2>
+      <div class="notice">MiniMax trade conclusions are unavailable; showing automated indicator scores.</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Coin</th><th>Type</th><th>Now</th><th>Expected</th><th>Time</th><th>Probability</th><th>Score</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>LIT</td>
+            <td>held</td>
+            <td>$1.4328</td>
+            <td>$1.5297</td>
+            <td>1-2 weeks</td>
+            <td>59%</td>
+            <td>64.5</td>
+          </tr>
+          <tr>
+            <td>BTC</td>
+            <td>held</td>
+            <td>$60,920.90</td>
+            <td>$59,111.20</td>
+            <td>1-2 weeks</td>
+            <td>70%</td>
+            <td>22.1</td>
+          </tr>
+          <tr>
+            <td>BNB</td>
+            <td>held</td>
+            <td>$576.10</td>
+            <td>$556.60</td>
+            <td>1-2 weeks</td>
+            <td>70%</td>
+            <td>21.8</td>
+          </tr>
+          <tr>
+            <td>ALLO</td>
+            <td>candidate</td>
+            <td>$0.22185</td>
+            <td>$0.35987</td>
+            <td>2-4 days</td>
+            <td>62%</td>
+            <td>67.9</td>
+          </tr>
+          <tr>
+            <td>HYPE</td>
+            <td>candidate</td>
+            <td>$59.73</td>
+            <td>$56.667</td>
+            <td>1-2 weeks</td>
+            <td>54%</td>
+            <td>42.1</td>
+          </tr>
+          <tr>
+            <td>ZEC</td>
+            <td>candidate</td>
+            <td>$378.67</td>
+            <td>$251.39</td>
+            <td>1-2 weeks</td>
+            <td>65%</td>
+            <td>28.6</td>
+          </tr>
+          <tr>
+            <td>XAUT</td>
+            <td>candidate</td>
+            <td>$4,301.30</td>
+            <td>$4,293.40</td>
+            <td>1-2 weeks</td>
+            <td>68%</td>
+            <td>24.2</td>
+          </tr>
+          <tr>
+            <td>PAXG</td>
+            <td>candidate</td>
+            <td>$4,317.30</td>
+            <td>$4,311.30</td>
+            <td>1-2 weeks</td>
+            <td>68%</td>
+            <td>24.2</td>
+          </tr>
+          <tr>
+            <td>OKB</td>
+            <td>candidate</td>
+            <td>$70.56</td>
+            <td>$67.99</td>
+            <td>1-2 weeks</td>
+            <td>69%</td>
+            <td>22.7</td>
+          </tr>
+          <tr>
+            <td>SOL</td>
+            <td>candidate</td>
+            <td>$63.66</td>
+            <td>$61.46</td>
+            <td>1-2 weeks</td>
+            <td>71%</td>
+            <td>20.9</td>
+          </tr>
+          <tr>
+            <td>ETH</td>
+            <td>candidate</td>
+            <td>$1,575.02</td>
+            <td>$1,539.28</td>
+            <td>1-2 weeks</td>
+            <td>71%</td>
+            <td>20.6</td>
+          </tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section><h2>Market in Brief</h2><ul class="summary-list"><li>Bitcoin is around $60,930, 24h change -3.04%.</li><li>Ethereum is around $1,577.02, 24h change -9.30%.</li><li>BNB is around $576.22, 24h change -3.73%.</li><li>XRP is around $1.097, 24h change -4.12%.</li><li>Solana is around $63.63, 24h change -6.28%.</li></ul></section>
+    <section><h2>Key Events</h2><div class="events">
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Why diehard bitcoin purists aren’t sweating the massive price crash that wiped out $200 billion</h3>
+          <p>Mati Greenspan, Michael Saylor and Jameson Lopp blamed the AI boom for draining capital from bitcoin. Meanwhile, Jack Mallers refrained from sharing an outlook but recommended buying the dip.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/05/why-diehard-bitcoin-purists-aren-t-sweating-the-massive-price-crash-that-wiped-out-usd200-billion" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>AI exposed a massive flaw in top crypto network and experts warn banks could be next</h3>
+          <p>After an AI model helped uncover a four-year-old flaw in Zcash, security researchers warn that similar bugs may be hiding across crypto and traditional financial systems.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/tech/2026/06/05/ai-exposed-a-massive-flaw-in-top-crypto-network-and-experts-warn-banks-could-be-next" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>BlackRock-backed tokenization firm Securitize clears key hurdle to go public on NYSE</h3>
+          <p>The tokenization specialist behind BlackRock&#x27;s BUIDL fund could begin trading on the NYSE as SEC approves merger registration.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/business/2026/06/05/blackrock-backed-tokenization-firm-securitize-clears-key-hurdle-to-go-public-on-nyse" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Memecoins dogecoin, shiba inu dive 9% as bitcoin nears $60,000</h3>
+          <p>Dogecoin and Shiba Inu led losses among major tokens as heavy volume and liquidations overwhelmed support levels, extending a broader risk-off move across crypto markets.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/05/memecoins-dogecoin-shiba-inu-dive-9-as-bitcoin-nears-usd60-000" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>U.S. House tax committee weighs crypto bills, including relief for small transactions</h3>
+          <p>Seven draft bills are being circulated by the House Ways and Means Committee ahead of a hearing next week, including proposals to ease small-gain, mining and staking burdens.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/policy/2026/06/05/u-s-house-tax-committee-weighs-crypto-bills-including-relief-for-small-transactions" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Alsobrooks says Clarity Act needs ethics deal before Senate vote</h3>
+          <p>The Maryland Democrat says bipartisan crypto legislation is close, but ethics and illicit finance concerns remain unresolved.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/coindesk-news/2026/06/05/alsobrooks-says-clarity-act-needs-ethics-deal-before-senate-vote" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Bitcoin loses $60,000, falls to weakest price since October 2024</h3>
+          <p>Several headwinds converged over bitcoin recently as its largest buyer turned seller, ETF investors headed for the exits, and rate-hike fears rose.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/05/bitcoin-loses-usd60-000-falls-to-weakest-price-since-october-2024" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>XRP falls toward $1.10 as liquidation-driven selloff pushes token to multi-month lows</h3>
+          <p>XRP lost another 5% after a high-volume breakdown overwhelmed support near $1.20, leaving traders focused on whether the latest washout marks capitulation or the start of a deeper slide.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/05/xrp-falls-toward-usd1-10-as-liquidation-driven-selloff-pushes-token-to-multi-month-lows" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div></section>
+    <section class="columns">
+      <div><h2>Watch Next</h2><ul class="plain-list"><li>Key BTC and ETH levels</li><li>ETF, regulation, and macro rate headlines</li><li>Capital flows across major chains</li></ul></div>
+      <div><h2>Risk Notes</h2><ul class="plain-list"><li>Crypto assets are highly volatile</li><li>News feeds can be delayed</li><li>This report is informational and is not investment advice</li></ul></div>
+    </section>
+    <footer>Generated at 2026-06-06 02:39 UTC. This automated report summarizes public information only and is not investment advice.</footer>
+  </div>
+</body>
+</html>
