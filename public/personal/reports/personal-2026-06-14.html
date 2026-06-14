@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人每日情报简报</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 300; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-06-14 · Personal Brief</div>
+        <h1>个人每日情报简报</h1>
+      </div>
+      <p class="brief">Xbox部门重组裁员，Anthropic因国家安全暂停AI模型，SpaceX比特币储备及加密市场动态</p>
+    </header>
+    
+    <section>
+      <h2>游戏产业</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Microsoft考虑拆分Xbox业务</h3>
+          <p>微软正在评估大幅重组Xbox部门关系，甚至不排除将其分拆为独立公司。裁员规模显著，下一代Project Helix主机计划也在重新审视中。</p>
+          <div class="impact">若Xbox独立，将重塑游戏主机行业格局，第三方合作策略可能发生根本性转变。</div>
+          <p><a href="https://www.theverge.com/games/949584/microsoft-spinning-off-xbox" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Valve首批Steam Deck大规模出货</h3>
+          <p>6月10日德国货船从上海抵洛杉矶，卸载约32吨货物，疑似Valve新游戏掌机Steam Frame首批量产批次。</p>
+          <div class="impact">Valve正式进军掌机市场，将与Steam Deck形成产品线互补，PC游戏便携化进程加速。</div>
+          <p><a href="https://www.theverge.com/news/949517/valve-vr-headset-import-records-steam-frame-steam-machine-game-console" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Xbox部门预警裁员重组</h3>
+          <p>微软Xbox部门下月将实施重大裁员，CEO阿莎·夏尔马暗示需“做出艰难选择”，可能涉及工作室关闭或战略调整。</p>
+          <div class="impact">继PlayStation裁员后，主机大战另一方微软也加入缩减，反映游戏行业面临增长压力。</div>
+          <p><a href="https://www.theverge.com/games/948142/microsoft-xbox-layoffs-reset-asha-sharma" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Steam实体礼品卡逐步退市</h3>
+          <p>Valve宣布停止在实体零售店补货Steam礼品卡，理由是诈骗者持续影响用户。现有库存售完即止。</p>
+          <div class="impact">数字平台礼品卡退市反映诈骗问题严峻程度，同时预示实体零售渠道在游戏生态中的进一步萎缩。</div>
+          <p><a href="https://www.theverge.com/games/947741/valve-steam-physical-gift-cards-scammers" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Nintendo Switch 2优惠促销</h3>
+          <p>Woot对Switch 2提供15美元折扣，使用优惠码NEW15，新客户可省15美元。9月将涨至499.99美元。</p>
+          <div class="impact">Switch 2涨价前夕的最后窗口期，便携游戏主机市场竞争加剧，价格策略调整信号明显。</div>
+          <p><a href="https://www.theverge.com/gadgets/948292/nintendo-switch-2-deal-sale-woot" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>加密货币</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Anthropic暂停Fable 5因应美国指令</h3>
+          <p>Anthropic突然关闭旗舰AI模型访问权限，理由是政府指令提及国家安全担忧。DeFi领域今年已损失超8.4亿美元。</p>
+          <div class="impact">强大AI工具若安全过滤失效，加密领域可能面临超高速黑客攻击风险，监管与技术博弈升温。</div>
+          <p><a href="https://www.coindesk.com/tech/2026/06/13/crypto-s-next-billion-dollar-hacker-may-move-at-superhuman-speed" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>SpaceX IPO对比特币储备的影响</h3>
+          <p>SpaceX以130亿美元比特币储备成为最大企业持币者。其IPO首秀将检验企业级加密货币储备策略在熊市中的抗压能力。</p>
+          <div class="impact">企业财务持币模式进入考验期，SpaceX首季财报将成为机构采用比特币的风向标。</div>
+          <p><a href="https://www.coindesk.com/business/2026/06/13/here-s-what-spacex-s-ipo-means-for-its-usd1-3-billion-bitcoin-reserve" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>比特币突破64000美元</h3>
+          <p>周六比特币交易价格突破64000美元，受益于一个月来最强ETF净流入及巴基斯坦-伊朗和平协议预期带来的地缘乐观情绪。</p>
+          <div class="impact">地缘政治缓和信号刺激加密市场，风险资产情绪回暖，ETF资金流入显示机构信心恢复。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/13/bitcoin-rises-above-usd64-000-after-pakistan-prime-minister-says-iran-peace-deal-is-near" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>稳定币困于闲置现金</h3>
+          <p>分析师奥康纳指出，加密领域最成功的产品稳定币在资本功能上未能突破，仅作为货币规模扩展。</p>
+          <div class="impact">稳定币作为支付工具成功但作为资本配置工具失败，DeFi资本效率命题仍待验证。</div>
+          <p><a href="https://www.coindesk.com/opinion/2026/06/13/stablecoins-were-meant-to-disrupt-finance-instead-they-became-idle-cash" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>华尔街深化以太坊布局</h3>
+          <p>Etherealize联合创始人称以太坊基础设施已完善，但采用规模尚未充分反映在ETH价格上，正处于过渡阶段。</p>
+          <div class="impact">主流金融机构正从试点阶段转向大规模部署，以太坊或迎来新一轮价值重估机会。</div>
+          <p><a href="https://www.coindesk.com/business/2026/06/13/wall-street-is-moving-past-crypto-pilots-and-deeper-into-ethereum-says-etherealize-founder" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>永续期货或成加密下一个ETF时刻</h3>
+          <p>Kraken衍生品负责人预计复杂交易商将率先采用美国新获批的永续期货，机构参与将逐步跟进。</p>
+          <div class="impact">美国监管批准加密衍生品意味着主流金融系统进一步接纳，加密市场结构趋于成熟。</div>
+          <p><a href="https://www.coindesk.com/business/2026/06/13/perpetual-futures-could-become-crypto-s-next-etf-moment" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Saylor感谢马斯克：Mag8企业25%持比特币</h3>
+          <p>Saylor在X平台发文祝贺SpaceX历史性IPO，称受马斯克影响，25%的Mag8企业已在资产负债表持有比特币。</p>
+          <div class="impact">企业财务比特币策略已形成示范效应，机构采用率持续攀升，MicroStrategy模式获更多效仿。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/13/saylor-to-musk-thanks-to-you-25-of-mag8-firms-now-hold-bitcoin" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>世界政治</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>Anthropic因美国指令暂停AI模型</h3>
+          <p>Anthropic突然暂停旗舰AI模型Fable 5和Mythos 5的访问权限，引用美国政府以国家安全为由发布的指令。</p>
+          <div class="impact">AI安全与国家战略资源管控成为新兴焦点，AI公司面临政府监管压力可能重塑行业竞争格局。</div>
+          <p><a href="https://cointelegraph.com/news/anthropic-suspends-access-to-fable-mythos-citing-us-directive?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>台湾新闻</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">台湾新闻</span>
+          <h3>台湾新闻源暂时不可用</h3>
+          <p>Focus Taiwan和Taiwan News的RSS源均无法访问，可能为技术故障或临时服务中断。</p>
+          <div class="impact">台湾地区新闻获取渠道受阻，建议关注官方其他发布渠道或备用新闻源以保持信息完整。</div>
+          <p><a href="https://focustaiwan.tw/rss" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <footer>Generated at 2026-06-14 02:59 UTC. This automated brief summarizes public information for personal awareness.</footer>
+  </div>
+</body>
+</html>
