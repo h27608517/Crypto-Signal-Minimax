@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人每日情报简报</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 300; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-06-16 · Personal Brief</div>
+        <h1>个人每日情报简报</h1>
+      </div>
+      <p class="brief">Xbox大规模重组震动游戏业，美伊停战协议签署加密市场情绪转暖，比特币或已触底</p>
+    </header>
+    
+    <section>
+      <h2>游戏产业</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Xbox关闭Ninja Theory工作室</h3>
+          <p>据The Verge报道，Xbox正在关闭Ninja Theory工作室，该工作室以《地狱之刃》系列闻名。员工在周一电话会议上被告知关闭消息，但正寻求潜在买家收购。</p>
+          <div class="impact">Ninja Theory是微软旗下知名独立工作室，其关闭标志着Xbox战略重组的深化，可能引发行业对微软游戏业务方向的担忧。</div>
+          <p><a href="https://www.theverge.com/games/950204/xbox-ninja-theory-shutdown-hellblade-senua" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Xbox动荡持续：Compulsion Games关闭与高管离职</h3>
+          <p>Xbox主管Asha Sharma上周发出&quot;重置&quot;备忘录后，今日传出Compulsion Games（《South of Midnight》开发商）将被关闭，负责人Craig Duncan亦宣布离职。</p>
+          <div class="impact">Compulsion Games是微软重点投资项目，其关闭进一步显示Xbox正在大幅削减工作室数量，管理层动荡加剧不确定性。</div>
+          <p><a href="https://www.theverge.com/games/949964/xbox-compulsion-games-closure-craig-duncan-departure" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Microsoft未排除分拆Xbox可能性</h3>
+          <p>据The Information报道，Microsoft正在评估大规模裁员并重新审视下一代Project Helix主机计划，同时考虑将Xbox业务分拆为独立公司。</p>
+          <div class="impact">若Xbox被分拆，将重塑全球游戏主机格局，对Game Pass订阅服务及微软整体游戏战略产生深远影响。</div>
+          <p><a href="https://www.theverge.com/games/949584/microsoft-spinning-off-xbox" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Valve一日进口13吨VR头显</h3>
+          <p>6月10日，一艘德国货船从上海抵达洛杉矶，据监测极可能是Steam Deck和Valve新款游戏头显的首次大规模量产出货。</p>
+          <div class="impact">Valve加大硬件投入，显示其从纯软件平台向软硬一体生态扩张的意图，VR游戏市场竞争将更加激烈。</div>
+          <p><a href="https://www.theverge.com/news/949517/valve-vr-headset-import-records-steam-frame-steam-machine-game-console" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>加密货币</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>分析师称&quot;加密春天&quot;已至，比特币关键信号转多</h3>
+          <p>Standard Chartered分析师Geoffrey Kendrick发布看涨判断，此前比特币空头信号已转为看多，Coinbase CEO亦表示比特币或在6万美元附近触底。</p>
+          <div class="impact">主流机构分析师公开看多，结合ETF资金重新流入，短期内市场情绪显著转暖，交易者需关注方向选择。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/15/crypto-spring-is-here-says-one-analyst-after-bitcoin-s-key-signals-turn-bullish" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Coinbase CEO：比特币或在6万美元触底</h3>
+          <p>Brian Armstrong表示，基于四年周期历史规律，比特币可能已在6万美元附近找到支撑，他的直觉认为价格已见底。</p>
+          <div class="impact">Coinbase作为美国最大的合规加密交易所，其CEO的公开表态对市场信心有重要指示意义。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/15/coinbase-s-brian-armstrong-says-bitcoin-may-have-bottomed-at-usd60-000" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Kraken推出美国永续期货，加密衍生品&quot;回流&quot;</h3>
+          <p>Kraken宣布在美国推出永续期货产品，去年全球永续期货交易量超过60万亿美元，大部分在美国以外完成，此次为该产品首次登陆美国市场。</p>
+          <div class="impact">美国衍生品市场的规范化将吸引更多机构资金入场，合规交易所间的竞争将更加激烈。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/15/kraken-debuts-u-s-perpetual-futures-as-crypto-derivatives-move-onshore" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Bitmine再购入1.36亿美元以太坊</h3>
+          <p>Tom Lee创办的以太坊国债公司Bitmine通过优先股出售筹集2.74亿美元后，又追加购入1.36亿美元以太坊，采用Michael Saylor比特币国债公司Strategy开创的融资模式。</p>
+          <div class="impact">企业以太坊国债化趋势持续，将减少市场流通供应，机构配置需求稳步增长。</div>
+          <p><a href="https://www.coindesk.com/business/2026/06/15/bitmine-adds-another-usd136-million-of-ether-after-raising-usd274-million-in-preferred-stock-sale" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Nvidia 200亿美元债券发行强化比特币矿工AI转型</h3>
+          <p>Nvidia计划发行债券融资强化AI基础设施需求，进一步印证比特币矿商向AI数据中心转型的商业逻辑，对矿企股价形成支撑。</p>
+          <div class="impact">AI基础设施需求旺盛为矿商提供多元化路径，矿业估值逻辑正在重构。</div>
+          <p><a href="https://cointelegraph.com/news/nvidia-20-billion-debt-boom-reinforces-bitocin-minings-ai-pivot" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>XRP突破1.20美元关口</h3>
+          <p>XRP今日大涨8%突破1.20美元，为6月抛售以来首次有效突破多个关键阻力位，交易员关注能否进一步上探1.30美元。</p>
+          <div class="impact">XRP的突破显示山寨币轮动行情持续，加密市场整体赚钱效应扩散，但需警惕技术性回调风险。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/15/xrp-rockets-8-above-usd1-20-in-first-major-breakout-since-june-selloff" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>比特币逼近6.7万美元后遭拒</h3>
+          <p>美国交易时段开盘后比特币短暂触及6.7万美元上方，但未能守住涨幅，交易员警告上攻失败后可能面临抛压。</p>
+          <div class="impact">6.7万美元一线为近期关键阻力，若多次测试失败可能削弱多头信心，需关注能否有效突破。</div>
+          <p><a href="https://cointelegraph.com/markets/bitcoin-analysis-warn-over-btc-price-rejection-as-67k-approaches" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>世界政治</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>特朗普宣布美伊战争已结束，协议即将公布</h3>
+          <p>特朗普表示美伊已签署结束战争协议，霍尔木兹海峡将于周五重新开放，但协议具体内容细节仍不明确。</p>
+          <div class="impact">霍尔木兹海峡是全球约五分之一石油运输的关键通道，停战协议若落实将显著缓解能源市场地缘风险，油价压力有望减轻。</div>
+          <p><a href="https://www.bbc.com/news/articles/ce8mv6l6eezo" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>美伊协议分析：战争暴露美国主导权局限性</h3>
+          <p>BBC分析指出，停战协议实质上将双方带回战争爆发前24小时的状态，但代价是数千人丧生，协议未能带来实质性地缘政治变化。</p>
+          <div class="impact">这场短暂冲突的结果显示，即使军事实力悬殊，美国也难以通过战争快速达成战略目标，地缘政治博弈将更多转向经济与外交层面。</div>
+          <p><a href="https://www.bbc.com/news/articles/cdr4x3vg347o" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>民主党批评特朗普家族利用总统权力谋利</h3>
+          <p>民主党全国委员会发言人批评特朗普加密公司World Liberty Financial通过USD1稳定币为UFC赛事提供奖金，称这是利用总统职权为家族敛财的机会。</p>
+          <div class="impact">此类争议涉及总统家族商业利益与公职利益的边界问题，可能在美国2026年中期选举中成为焦点议题。</div>
+          <p><a href="https://cointelegraph.com/news/donald-trump-crypto-company-ufc-fighter-bonuses-usd1-stablecoins" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>台湾新闻</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">台湾新闻</span>
+          <h3>台湾新闻源暂时不可用</h3>
+          <p>Focus Taiwan、Taiwan News、Reuters World等台湾相关RSS源今日均无法获取，建议稍后重试或切换其他信源。</p>
+          <div class="impact">当日台湾地区新闻暂无更新，情报覆盖存在盲区，需持续关注后续信源恢复情况。</div>
+          <p><a href="https://focustaiwan.tw/rss" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <footer>Generated at 2026-06-16 03:33 UTC. This automated brief summarizes public information for personal awareness.</footer>
+  </div>
+</body>
+</html>
