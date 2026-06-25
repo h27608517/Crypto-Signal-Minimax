@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2026-06-25 Crypto Daily</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .market { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; }
+    .coin, .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .coin b { display: block; font-size: 15px; margin-bottom: 8px; }
+    .price { font-size: 22px; font-weight: 300; font-family: Inter, "Helvetica Neue", sans-serif; }
+    .change { margin-top: 8px; color: var(--muted); font-size: 14px; font-weight: 300; }
+    .up { color: var(--accent); }
+    .down { color: var(--hot); }
+    .summary-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; padding: 0; margin: 0; list-style: none; }
+    .summary-list li { background: var(--panel); border: 1px dashed var(--line); border-left: 2px solid var(--accent); padding: 12px 14px; line-height: 1.6; font-weight: 300; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); font-weight: 300; }
+    .columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+    .portfolio-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px; }
+    .portfolio-card { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 14px 16px; box-shadow: none; }
+    .portfolio-card span { display: block; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    .portfolio-card b { font-size: 21px; font-weight: 300; font-family: Inter, "Helvetica Neue", sans-serif; }
+    .table-wrap { margin-top: 18px; overflow-x: auto; }
+    .table-wrap h3 { margin: 0 0 10px; font-size: 16px; }
+    table { width: 100%; border-collapse: collapse; min-width: 680px; background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; overflow: hidden; box-shadow: none; }
+    th, td { padding: 11px 12px; border-bottom: 1px dashed var(--line); text-align: left; font-size: 14px; white-space: nowrap; font-weight: 300; }
+    th { color: var(--muted); font-size: 12px; text-transform: uppercase; font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    .action { display: inline-block; min-width: 56px; padding: 4px 0; border-radius: 0; text-align: center; font-size: 12px; font-weight: 700; background: transparent; color: var(--ink); border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; text-transform: uppercase; }
+    .action-buy, .action-add { color: var(--accent); }
+    .action-reduce, .action-sell { color: var(--hot); }
+    .plain-list { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-06-25 · Crypto Daily</div>
+        <h1>2026-06-25 Crypto Daily</h1>
+      </div>
+      <p class="brief">Data fetched successfully. MiniMax is not configured, so this is a basic fallback report.</p>
+    </header>
+    <section><h2>Market Snapshot</h2><div class="market">
+          <div class="coin">
+            <b>Bitcoin · BTC</b>
+            <div class="price">$60,814.00</div>
+            <div class="change down">24h -2.96%</div>
+          </div>
+          <div class="coin">
+            <b>Ethereum · ETH</b>
+            <div class="price">$1,616.04</div>
+            <div class="change down">24h -3.01%</div>
+          </div>
+          <div class="coin">
+            <b>BNB · BNB</b>
+            <div class="price">$565.74</div>
+            <div class="change down">24h -2.12%</div>
+          </div>
+          <div class="coin">
+            <b>XRP · XRP</b>
+            <div class="price">$1.07</div>
+            <div class="change down">24h -3.14%</div>
+          </div>
+          <div class="coin">
+            <b>Solana · SOL</b>
+            <div class="price">$67.75</div>
+            <div class="change down">24h -2.67%</div>
+          </div>
+          <div class="coin">
+            <b>Dogecoin · DOGE</b>
+            <div class="price">$0.08</div>
+            <div class="change down">24h -3.74%</div>
+          </div></div></section>
+    
+    <section>
+      <h2>OKX Portfolio</h2>
+      <div class="portfolio-summary">
+        <div class="portfolio-card">
+          <span>Total Equity</span>
+          <b>$648.28</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Adjusted Equity</span>
+          <b>-</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Initial Margin</span>
+          <b>-</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Maintenance Margin</span>
+          <b>-</b>
+        </div></div>
+      <div class="table-wrap">
+        <h3>Asset Balances</h3>
+        <table>
+          <thead><tr><th>Asset</th><th>Equity</th><th>Cash</th><th>USD Value</th><th>Spot Avg Price</th><th>Spot Upnl</th><th>Position Upnl</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>BTC</td>
+            <td>0.00696701</td>
+            <td>0.00696701</td>
+            <td>$423.23</td>
+            <td>78,441.3598</td>
+            <td>$-123.27</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>LIT</td>
+            <td>76.6493</td>
+            <td>76.6493</td>
+            <td>$127.18</td>
+            <td>1.5315</td>
+            <td>$9.80</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>BNB</td>
+            <td>0.1212746</td>
+            <td>0.1212746</td>
+            <td>$68.56</td>
+            <td>658.1828</td>
+            <td>$-11.26</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>USDT</td>
+            <td>28.726</td>
+            <td>28.726</td>
+            <td>$28.68</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>AVAX</td>
+            <td>0.07338369</td>
+            <td>0.07338369</td>
+            <td>$0.47</td>
+            <td>8.8968</td>
+            <td>$-0.18</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>ETH</td>
+            <td>0.00009619</td>
+            <td>0.00009619</td>
+            <td>$0.16</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>HYPE</td>
+            <td>0.000068</td>
+            <td>0.000068</td>
+            <td>$0.00</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>BERA</td>
+            <td>0.000876</td>
+            <td>0.000876</td>
+            <td>$0.00</td>
+            <td>7.9618</td>
+            <td>$-0.01</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>OKSOL</td>
+            <td>0.00000076</td>
+            <td>0.00000076</td>
+            <td>$0.00</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>SOL</td>
+            <td>0.00000003</td>
+            <td>0.00000003</td>
+            <td>$0.00</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr></tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <h3>Open Positions</h3>
+        <table>
+          <thead><tr><th>Instrument</th><th>Side</th><th>Size</th><th>Avg Price</th><th>Mark Price</th><th>Position Upnl</th><th>PnL %</th></tr></thead>
+          <tbody><tr><td colspan="7">No open derivative positions.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Technical Outlook</h2>
+      <div class="notice">MiniMax trade conclusions are unavailable; showing automated indicator scores.</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Coin</th><th>Type</th><th>Now</th><th>Expected</th><th>Time</th><th>Probability</th><th>Score</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>LIT</td>
+            <td>held</td>
+            <td>$1.6618</td>
+            <td>$1.7745</td>
+            <td>2-4 days</td>
+            <td>70%</td>
+            <td>78.0</td>
+          </tr>
+          <tr>
+            <td>BTC</td>
+            <td>held</td>
+            <td>$60,843.70</td>
+            <td>$59,107.00</td>
+            <td>1-2 weeks</td>
+            <td>62%</td>
+            <td>31.4</td>
+          </tr>
+          <tr>
+            <td>BNB</td>
+            <td>held</td>
+            <td>$566.40</td>
+            <td>$546.60</td>
+            <td>1-2 weeks</td>
+            <td>67%</td>
+            <td>26.0</td>
+          </tr>
+          <tr>
+            <td>AAVE</td>
+            <td>candidate</td>
+            <td>$81.98</td>
+            <td>$86.2434</td>
+            <td>2-4 days</td>
+            <td>62%</td>
+            <td>68.3</td>
+          </tr>
+          <tr>
+            <td>NES</td>
+            <td>candidate</td>
+            <td>$0</td>
+            <td>$0</td>
+            <td>1-2 weeks</td>
+            <td>48%</td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td>HYPE</td>
+            <td>candidate</td>
+            <td>$63.267</td>
+            <td>$59.119</td>
+            <td>1-2 weeks</td>
+            <td>58%</td>
+            <td>37.0</td>
+          </tr>
+          <tr>
+            <td>SOL</td>
+            <td>candidate</td>
+            <td>$67.74</td>
+            <td>$64.71</td>
+            <td>1-2 weeks</td>
+            <td>58%</td>
+            <td>37.0</td>
+          </tr>
+          <tr>
+            <td>ETH</td>
+            <td>candidate</td>
+            <td>$1,617.34</td>
+            <td>$1,552.53</td>
+            <td>1-2 weeks</td>
+            <td>63%</td>
+            <td>30.8</td>
+          </tr>
+          <tr>
+            <td>ZEC</td>
+            <td>candidate</td>
+            <td>$412.17</td>
+            <td>$387.83</td>
+            <td>1-2 weeks</td>
+            <td>66%</td>
+            <td>27.1</td>
+          </tr>
+          <tr>
+            <td>XAUT</td>
+            <td>candidate</td>
+            <td>$3,977.60</td>
+            <td>$3,957.00</td>
+            <td>1-2 weeks</td>
+            <td>68%</td>
+            <td>24.2</td>
+          </tr>
+          <tr>
+            <td>PAXG</td>
+            <td>candidate</td>
+            <td>$3,986.50</td>
+            <td>$3,960.00</td>
+            <td>1-2 weeks</td>
+            <td>68%</td>
+            <td>24.2</td>
+          </tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section><h2>Market in Brief</h2><ul class="summary-list"><li>Bitcoin is around $60,814, 24h change -2.96%.</li><li>Ethereum is around $1,616.04, 24h change -3.01%.</li><li>BNB is around $565.74, 24h change -2.12%.</li><li>XRP is around $1.072, 24h change -3.14%.</li><li>Solana is around $67.75, 24h change -2.67%.</li></ul></section>
+    <section><h2>Key Events</h2><div class="events">
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Upheaval at the Ethereum Foundation has some of crypto’s biggest names feeling bullish</h3>
+          <p>In this week&#x27;s edition of The Protocol Newsletter, we&#x27;re looking at Ethereum&#x27;s eventful week that started off with the launch of EthLabs, plus the layoffs at the Ethereum Foundation, and what this all means for the network.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/tech/2026/06/24/upheaval-at-the-ethereum-foundation-has-some-of-crypto-s-biggest-names-feeling-bullish" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Kalshi targets a massive $40 billion valuation, widening lead over rival Polymarket</h3>
+          <p>The prediction market operator, which is eyeing a potential public debut in 2027, could close a new funding round in Q3, according to a Financial Times report.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/business/2026/06/24/kalshi-targets-a-massive-usd40-billion-valuation-widening-lead-over-rival-polymarket" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Binance withdraws Greek MiCA bid but vows to remain in Europe</h3>
+          <p>The crypto giant must find a home base in the EU by July 1 or regulators will force the company to shut down operations for millions of regional users.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/policy/2026/06/24/binance-withdraws-greek-mica-bid-but-vows-to-remain-in-europe" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Bitcoin falls below $60,000 as AI trade continues to draw investor interest and capital</h3>
+          <p>South Korean memory chip giant on Wednesday filed to raise nearly $30 billion in a U.S. offering.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/24/bitcoin-falls-to-usd60-000-as-ai-trade-continues-to-draw-investor-interest-and-capital" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Crypto Long &amp; Short: Infrastructure is the prevailing currency in digital assets</h3>
+          <p>In this week&#x27;s Crypto Long &amp; Short, Nonco’s Caue Teixeira makes the case that regardless of which coin ultimately wins, infrastructure is the prevailing currency in digital assets. Then, using CoinDesk&#x27;s liquidation feed, Liquibit Capital&#x27;s Alen Pavlović finds that June&#x27;s forced selling peaked near $68,000, days before bitcoin actually bottomed.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/coindesk-indices/2026/06/24/crypto-long-and-short-infrastructure-is-the-prevailing-currency-in-digital-assets" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>SecondFi loses $2.4 million in Cardano wallet exploit</h3>
+          <p>SecondFi was hit by three separate attacks exploiting a flaw in its wallet generation software. A further 129 million ADA was secured by the team before attackers could reach it.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/business/2026/06/24/secondfi-loses-usd2-4-million-in-cardano-wallet-exploit-with-up-to-usd20-million-at-risk" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Trump&#x27;s refusal to sign housing bill could delay Congress and imperil Clarity Act</h3>
+          <p>As Congress prepared to celebrate the president&#x27;s signing of the bipartisan housing bill that contains a CBDC prohibition, Trump abruptly cancelled the event.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/policy/2026/06/24/trump-refuses-to-sign-law-with-u-s-cbdc-ban-demands-approval-of-elections-bill" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">CoinDesk</span>
+          <h3>Ex-FCA policy insider explains the ‘great divide’ in the UK’s crypto ambition</h3>
+          <p>Former FCA policymaker and Hedera Global Policy VP, Isadora Arredondo says there is a gap between the U.K.&#x27;s crypto ambitions and how policy is carried out in practice.</p>
+          <div class="impact">Needs further observation alongside price action and official updates.</div>
+          <p><a href="https://www.coindesk.com/policy/2026/06/24/ex-fca-policy-insider-explains-the-great-divide-in-the-uk-s-crypto-ambition" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div></section>
+    <section class="columns">
+      <div><h2>Watch Next</h2><ul class="plain-list"><li>Key BTC and ETH levels</li><li>ETF, regulation, and macro rate headlines</li><li>Capital flows across major chains</li></ul></div>
+      <div><h2>Risk Notes</h2><ul class="plain-list"><li>Crypto assets are highly volatile</li><li>News feeds can be delayed</li><li>This report is informational and is not investment advice</li></ul></div>
+    </section>
+    <footer>Generated at 2026-06-25 02:43 UTC. This automated report summarizes public information only and is not investment advice.</footer>
+  </div>
+</body>
+</html>
