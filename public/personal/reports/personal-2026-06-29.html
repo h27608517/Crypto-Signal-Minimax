@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人每日情报简报</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 300; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-06-29 · Personal Brief</div>
+        <h1>个人每日情报简报</h1>
+      </div>
+      <p class="brief">Xbox涨价$100-150；比特币跌破$6万恐连续两季亏损；CZ推动美国成为加密中心</p>
+    </header>
+    
+    <section>
+      <h2>游戏产业</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Xbox主机全线涨价$100-150</h3>
+          <p>8月1日起，512GB型号涨价$100至$499.99，1TB型号涨价$150。微软归因于内存短缺。</p>
+          <div class="impact">主机价格大幅上涨将影响暑期促销季的购买决策，游戏设备支出需重新预算。</div>
+          <p><a href="https://www.theverge.com/games/957042/xbox-price-increase-memory-shortage" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Prime Day游戏主机优惠</h3>
+          <p>Switch 2、PS5、Xbox Series X/S均有大幅折扣，多数为实体版，部分数字版价格更优。</p>
+          <div class="impact">涨价前最后的入手窗口，对有意购买Xbox的玩家尤其重要，建议在8月前完成采购。</div>
+          <p><a href="https://www.theverge.com/gadgets/951901/prime-day-video-games-switch-playstation-xbox-pc-deal-sale" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>独立开发者自创Star Fox风格游戏</h3>
+          <p>因缺乏官方续作，怀旧开发者开始自主制作类似Lylat Wars风格的作品，引发社区热议。</p>
+          <div class="impact">独立游戏填补大厂空白的案例，经典IP的粉丝需求持续存在。</div>
+          <p><a href="https://www.theverge.com/entertainment/957679/indie-developers-star-fox-games" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Android 17折叠屏游戏模式</h3>
+          <p>新系统为折叠设备打造专属游戏模式，半屏显示虚拟手柄，模拟实体按键操作。</p>
+          <div class="impact">折叠屏游戏体验优化，触控操作更接近主机手感，或推动移动游戏硬件升级。</div>
+          <p><a href="https://www.theverge.com/tech/957450/android-17-foldable-gaming-mode-virtual-controller" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>独立益智游戏《What&#x27;s the Password?》获好评</h3>
+          <p>四位数密码输入机制看似简单，但100+关卡设计提供出乎意料的深度与变化。</p>
+          <div class="impact"> indie游戏以机制创新取胜，低成本但高完成度的范例。</div>
+          <p><a href="https://www.theverge.com/games/957474/whats-the-password-review-pc-ios-android" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>加密货币</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>比特币跌破$60,000，恐连续两季亏损</h3>
+          <p>本周下跌近7%，山寨币跌幅更大。比特币和以太坊均将录得连续两个季度下跌，打破常规周期规律。</p>
+          <div class="impact">半年连续亏损较为罕见，市场情绪谨慎，需关注$55,000关键支撑。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/28/bitcoin-falls-below-usd60-000-on-track-for-a-rare-back-to-back-quarterly-loss" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>贵金属下跌拖累比特币</h3>
+          <p>美联储鹰派立场下，比特币与贵金属的避险交易正在解除，比特币随黄金白银同步下跌。</p>
+          <div class="impact">传统宏观因素影响加密走势，美元走强期间需警惕联动风险。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/27/why-a-selloff-in-gold-and-silver-is-dragging-bitcoin-down" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Michael Saylor暗示继续增持比特币</h3>
+          <p>Strategy股价持续下跌之际，Saylor展示公司500亿美元比特币持仓图表，暗示将需要更多数据点。</p>
+          <div class="impact">机构持续看多，但高成本持仓策略在下跌市中承压，投资者需评估风险。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/28/michael-saylor-teases-more-bitcoin-buying-even-as-strategy-stock-continues-to-fall" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>SBI 2.89亿美元收购日本Bitbank交易所</h3>
+          <p>日本最大金融集团SBI收购本土加密交易所，被视为押注监管规模化的战略布局。</p>
+          <div class="impact">日本加密市场整合加速，监管框架完善后机构入场门槛降低。</div>
+          <p><a href="https://www.coindesk.com/business/2026/06/28/sbi-s-usd289-million-bitbank-deal-is-symptomatic-of-japan-s-crypto-consolidation-architect-partners" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>CZ推动美国成为加密货币中心</h3>
+          <p>币安创始人接受CoinDesk专访，表示希望帮助美国确立加密行业领导地位。</p>
+          <div class="impact">行业核心人物表态示好，政策博弈进入关键阶段。</div>
+          <p><a href="https://www.coindesk.com/policy/2026/06/28/cz-wants-to-make-the-u-s-the-capital-of-crypto-state-of-crypto" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>加密货币下一个前沿：AI与机器人融资</h3>
+          <p>Framework联合创始人认为区块链将成为资本密集型行业的金融层，而非仅用于加密投机。</p>
+          <div class="impact">加密叙事向实体经济渗透，DeFi应用场景拓展需长期关注。</div>
+          <p><a href="https://www.coindesk.com/business/2026/06/28/crypto-s-next-frontier-isn-t-crypto-it-s-financing-ai-and-robotics-framework-s-anderson-says" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>分析师对比特币底部判断存分歧</h3>
+          <p>Samson Mow认为底部已现，基于减半周期变化；但多位分析师仍预期进一步下行。</p>
+          <div class="impact">市场观点对立，技术面RSI出现看涨背离，短期波动方向不明。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/06/28/samson-mow-says-bitcoin-bottom-is-in-but-analysts-remain-divided" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>比特币RSI背离引发2022年底部猜想</h3>
+          <p>技术指标显示看涨背离，但部分观点警告可能跌破前低。7月走势关键。</p>
+          <div class="impact">$75,000为短期目标，$55,000为下方风险阈值，止损需谨慎设置。</div>
+          <p><a href="https://cointelegraph.com/markets/bitcoin-rsi-bullish-divergence-sees-analysis-call-2022-bottom-repeat?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>世界政治</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>欧洲热浪已致1300人死亡，德国录得41.7°C高温</h3>
+          <p>世卫组织总干事警告欧洲未做好高温应对准备，多国气温刷新纪录。</p>
+          <div class="impact">极端气候事件频率上升，公共健康与能源系统承压，需关注后续影响。</div>
+          <p><a href="https://www.bbc.co.uk/news/articles/cn4d2vv935lo?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>Binance被逐出欧盟市场</h3>
+          <p>未能获得运营许可，币安关闭欧洲服务。EthLabs非营利组织崛起，旨在推动以太坊采用。</p>
+          <div class="impact">全球最大交易所遭遇监管挫折，欧盟加密监管趋严，合规成本显著上升。</div>
+          <p><a href="https://cointelegraph.com/features/hodlers-digest-binance?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>BIS警告稳定币可能分裂全球金融体系</h3>
+          <p>国际清算银行表示私人数字代币不符合稳健货币标准，敦促央行加快发行代币化法定货币。</p>
+          <div class="impact">全球监管协调信号明确，稳定币发行方将面临更高合规要求。</div>
+          <p><a href="https://cointelegraph.com/news/bis-warns-stablecoins-risk-fragmenting-global-financial-system?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>欧盟EBA公布大规模加密货币罚款框架</h3>
+          <p>欧洲银行管理局提议对不合规的重大代币发行方处以最高年收入12.5%的罚款。</p>
+          <div class="impact">监管震慑力大幅提升，代币发行方合规成本与违规风险显著增加。</div>
+          <p><a href="https://cointelegraph.com/news/eu-watchdog-eba-details-big-crypto-fines-as-landmark-laws-bite?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>比特币7月走势预测</h3>
+          <p>历史7月收益数据与大量空头仓位或推动反弹至$75,000，但跌破关键支撑可能下探$55,000。</p>
+          <div class="impact">短期技术面偏多但宏观压力仍在，区间震荡格局概率较高。</div>
+          <p><a href="https://cointelegraph.com/markets/will-bitcoin-price-recover-in-july?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>台湾新闻</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">台湾新闻</span>
+          <h3>台湾新闻源暂时不可用</h3>
+          <p>Focus Taiwan、Reuters World及Taiwan News今日RSS源均无法获取，请稍后重试。</p>
+          <div class="impact">今日缺乏台湾地区可靠信源，建议通过替代渠道核实涉台敏感信息。</div>
+          <p><a href="https://focustaiwan.tw/rss" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <footer>Generated at 2026-06-29 02:55 UTC. This automated brief summarizes public information for personal awareness.</footer>
+  </div>
+</body>
+</html>
