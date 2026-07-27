@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人每日情报简报</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 300; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-07-27 · Personal Brief</div>
+        <h1>个人每日情报简报</h1>
+      </div>
+      <p class="brief">Xbox云游戏推广告支持模式，SHIB大涨36%引发关注，美国CFTC连续警告预测市场。</p>
+    </header>
+    
+    <section>
+      <h2>游戏产业</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>微软为Xbox Insider测试免费广告支持云游戏</h3>
+          <p>Xbox Insider现可免费流式传输库内游戏，时长上限一小时，广告仅在会话开始前播放。订阅用户可选择跳过广告。</p>
+          <div class="impact">免费模式的引入可能改变云游戏商业模式，降低用户门槛但影响收入结构。</div>
+          <p><a href="https://www.theverge.com/games/969969/xbox-testing-ad-supported-streaming" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>亚马逊在Prime Video中整合Luna云游戏服务</h3>
+          <p>Fire TV设备新增Games标签，整合Prime Gaming、Amazon Game Studios与Luna，瞄准轻度娱乐用户群体。</p>
+          <div class="impact">流媒体平台与云游戏深度整合趋势加速，游戏分发渠道进一步多元化。</div>
+          <p><a href="https://www.theverge.com/streaming/970099/amazon-prime-video-luna-gaming" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>微软将原版Xbox游戏引入PC平台</h3>
+          <p>首批四款经典游戏已上线预览，包括Blinx: The Time Sweeper等，后续将扩展更多Xbox主机游戏至PC。</p>
+          <div class="impact">Xbox向后兼容战略扩展至PC平台，模糊主机与PC游戏边界。</div>
+          <p><a href="https://www.theverge.com/news/969117/microsoft-xbox-games-pc-backward-compatibility" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Nintendo Switch 2在Woot上新客户可享50美元折扣</h3>
+          <p>原价449.99美元，新客户优惠价399.99美元，老客户优惠价427.99美元，活动持续一周。</p>
+          <div class="impact">主流游戏主机价格战开启，暑期促销季竞争加剧。</div>
+          <p><a href="https://www.theverge.com/gadgets/968325/woot-switch-2-coupon-discount-code-deal-sale" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Xbox Game Pass Ultimate三个月订阅Eneba限时优惠</h3>
+          <p>原价值69美元的三月订阅，现Eneba平台售价39.01美元，接近半价优惠。</p>
+          <div class="impact">第三方平台持续提供折扣，适合订阅用户趁低入手。</div>
+          <p><a href="https://www.theverge.com/gadgets/970775/xbox-game-pass-ultimate-deal-sale" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>新版Halo重制版发布折射Xbox困境</h3>
+          <p>评论指出微软游戏部门面临大规模裁员、工作室削减和战略混乱，但早期Xbox曾有辉煌历史。</p>
+          <div class="impact">微软游戏业务正处于关键转折点，重制经典IP或为挽回市场信心之举。</div>
+          <p><a href="https://www.theverge.com/entertainment/969563/halo-campaign-evolved-review-xbox-ps5-pc" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>加密货币</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>SHIB暴涨36%：韩国交易者推动的神秘上涨</h3>
+          <p>柴犬币单日涨幅达36%，无官方公告驱动，其他狗狗币未跟随，韩国交易所主导交易量。</p>
+          <div class="impact">市场情绪驱动型波动加剧，地区性热点可能快速切换，需警惕追高风险。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/07/26/shiba-inu-surges-36-as-south-korean-traders-fuel-mystery-rally" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>BitMart交易所宣布关停，九年运营终结</h3>
+          <p>用户有一个月时间平仓，半年时间提款，未公布具体关停原因，BMX代币暴跌58%。</p>
+          <div class="impact">又一家主流交易所退出，市场信心持续承压，用户资产安全再度引发关注。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/07/26/crypto-exchange-bitmart-to-shut-down-after-nine-years-bmx-token-crashes-58" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>美国CFTC二次警告预测市场合规问题</h3>
+          <p>监管机构再次要求预测市场停止使用模板化自我认证，禁止过于宽泛的事件合约发行。</p>
+          <div class="impact">预测市场面临更严格监管，合规成本上升，行业洗牌或将加速。</div>
+          <p><a href="https://www.coindesk.com/policy/2026/07/24/u-s-regulator-warns-prediction-markets-against-cutting-corners-in-event-contracts" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>俄罗斯最大银行Sberbank计划12月推出加密交易基础设施</h3>
+          <p>新加密交易、托管和结算法规9月1日生效，2027年7月起要求持牌中介机构参与。</p>
+          <div class="impact">俄罗斯加密市场合规化进程明确，传统银行入局将改变市场格局。</div>
+          <p><a href="https://www.coindesk.com/business/2026/07/25/russia-s-largest-bank-sberbank-plans-crypto-trading-infrastructure-by-december" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Garden Finance遭攻击损失约45万美元</h3>
+          <p>攻击者通过以太坊、Base、Arbitrum和BNB链的HTLC合约窃取约45万美元USDT，应用程序已下线。</p>
+          <div class="impact">跨链HTLC合约漏洞持续被利用，安全审计重要性凸显。</div>
+          <p><a href="https://cointelegraph.com/news/garden-finance-app-offline-450k-htlc-exploit" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>世界政治</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>美国CFTC连续警告预测市场自我认证问题</h3>
+          <p>监管机构年内第二次点名，要求预测市场停止使用模板化自我认证流程，规范事件合约发行。</p>
+          <div class="impact">预测市场正成为监管重点，合规门槛提高将加速行业整合。</div>
+          <p><a href="https://cointelegraph.com/news/cftc-issues-second-warning-to-prediction-markets-on-cookie-cutter-self-certifications" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>参议院仅剩两周推进加密 Clarity 法案</h3>
+          <p>美国加密监管的关键立法窗口收窄，Clarity法案需在此前取得实质进展，否则将延至下个会期。</p>
+          <div class="impact">美国加密监管框架走向关键节点，全球监管竞争格局可能因此改变。</div>
+          <p><a href="https://www.coindesk.com/policy/2026/07/26/2-weeks-left-for-clarity-state-of-crypto" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>欧洲严格监管可能引发加密行业并购新浪潮</h3>
+          <p>MiCA法规落地和英国加密框架完善后，高门槛监管环境将推动行业并购及与银行的深度合作。</p>
+          <div class="impact">欧洲加密中心地位可能强化，合规能力成为企业核心竞争力。</div>
+          <p><a href="https://www.coindesk.com/policy/2026/07/26/europe-s-high-regulatory-bar-could-spark-new-crypto-industry-m-and-a-wave" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>Netanyahu指责纽约市长“煽动仇恨”</h3>
+          <p>Mamdani此前威胁逮捕内塔尼亚胡，后收回言论，承认缺乏相应法律权力。</p>
+          <div class="impact">ICC逮捕令引发的外交摩擦持续发酵，地方官员介入增加复杂性。</div>
+          <p><a href="https://www.bbc.co.uk/news/articles/c5yegvd9ddeo" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>印度教育部长辞职后“蟑螂”抗议取消</h3>
+          <p>针对莫迪政府最具代表性的公众抗议活动因教育部长辞职而落幕。</p>
+          <div class="impact">印度政治反对力量阶段性受挫，政府执政压力暂时缓解。</div>
+          <p><a href="https://www.bbc.co.uk/news/articles/cdx828gj5xko" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>台湾新闻</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">台湾新闻</span>
+          <h3>路透社世界新闻订阅暂时不可用</h3>
+          <p>RSS源连接失败，无法获取当日台湾相关国际报道。</p>
+          <div class="impact">当日台湾国际新闻来源缺失，建议关注其他中文媒体渠道补充信息。</div>
+          <p><a href="https://feeds.reuters.com/reuters/worldNews" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">台湾新闻</span>
+          <h3>焦点台湾频道暂时无法访问</h3>
+          <p>HTTP 404错误，该新闻源当日未能正常更新。</p>
+          <div class="impact">主要台湾本地新闻源之一暂时离线，需通过备用渠道获取台海动态。</div>
+          <p><a href="https://focustaiwan.tw/rss" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">台湾新闻</span>
+          <h3>台湾英文新闻频道数据异常</h3>
+          <p>RSS解析错误，当日新闻内容无法正常读取。</p>
+          <div class="impact">当日台湾英文资讯渠道受限，英文信息获取需转向其他来源。</div>
+          <p><a href="https://www.taiwannews.com.tw/rss" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <footer>Generated at 2026-07-27 02:23 UTC. This automated brief summarizes public information for personal awareness.</footer>
+  </div>
+</body>
+</html>
