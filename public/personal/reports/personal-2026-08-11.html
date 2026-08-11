@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人每日情报简报</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 300; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-08-11 · Personal Brief</div>
+        <h1>个人每日情报简报</h1>
+      </div>
+      <p class="brief">游戏业数据泄露与硬件折扣并存；加密市场机构调仓频繁；全球气候与埃博拉疫情值得关注。</p>
+    </header>
+    
+    <section>
+      <h2>游戏产业</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Valve Steam硬件运输合作商数据泄露</h3>
+          <p>Valve在欧洲的运输合作伙伴CEVA Logistics遭受数据泄露，用户姓名、地址、电话、邮箱等个人信息可能被暴露。Valve已向受影响用户发送通知。</p>
+          <div class="impact">影响欧洲Steam硬件买家个人信息安全，建议相关用户警惕钓鱼邮件。</div>
+          <p><a href="https://www.theverge.com/games/977314/valve-steam-hardware-shipping-data-breach" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>沃尔玛赞助的Restart游戏媒体全员裁员</h3>
+          <p>由Walmart赞助、Moonrock运营的游戏媒体Restart宣布解散整个编辑团队，前主编等员工已在社交媒体确认被裁。</p>
+          <div class="impact">游戏媒体商业化模式再遭挑战，独立游戏报道空间进一步收窄。</div>
+          <p><a href="https://www.theverge.com/games/977056/restart-gaming-site-walmart-moonrock-layoffs" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>塞尔达传说电影甘诺道夫选角暗示多部续作</h3>
+          <p>澳籍演员Uli Latukefu确认饰演反派甘诺道夫，Deadline报道其已签署多部电影合约，暗示《塞尔达传说》电影将发展为系列。</p>
+          <div class="impact">任天堂与索尼合作深化，游戏IP影视化布局进入实质阶段。</div>
+          <p><a href="https://www.theverge.com/entertainment/976337/the-legend-of-zelda-movie-ganondorf-multi-picture-deal" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>GTA VI将于8月27日发布深度预览</h3>
+          <p>Rockstar宣布将于8月27日晚9点ET在YouTube发布《 GTA VI》第三支预告，Netflix订阅用户可提前至下午3点观看。</p>
+          <div class="impact">游戏史上最受期待作品发布窗口将近，相关概念股及媒体热度将持续上升。</div>
+          <p><a href="https://www.theverge.com/entertainment/976073/gta-6-trailer-3-date-time-netflix-youtube" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>任天堂Q1财报超预期，关税退款不返还玩家</h3>
+          <p>截至6月30日，任天堂营业利润同比大涨至1425亿日元，受益于强劲游戏销售及美国关税退款，但客户不会获得退款分成。</p>
+          <div class="impact">任天堂财务健康，但高利润与玩家收益脱节可能引发舆论争议。</div>
+          <p><a href="https://www.theverge.com/games/976054/nintendo-earnings-q1-2027-tariff-refund" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>联想Legion Go S SteamOS版创历史最低价</h3>
+          <p>搭载Z2 Go处理器和SteamOS的联想掌机Legion Go S降至史低，正常售价1137美元，当前优惠力度显著。</p>
+          <div class="impact">SteamOS掌机价格下探，对Steam Deck及掌上游戏市场形成竞争压力。</div>
+          <p><a href="https://www.theverge.com/gadgets/975113/lenovo-legion-go-s-steamos-deal-sale" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>下一代Xbox Project Helix将兼容全系Xbox游戏</h3>
+          <p>泄露备忘录显示，Project Helix将运行从2001年初代Xbox到Xbox 360等历代主机游戏，成为史上兼容库最大的家用主机。</p>
+          <div class="impact">微软游戏生态闭环战略深化，存量游戏资产价值凸显。</div>
+          <p><a href="https://www.theverge.com/games/974773/xbox-helix-disc-digital-backwards-compatibility-leaked-memo-opt-in" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>加密货币</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Trump Media持有比特币缩水，亏损达3.61亿美元</h3>
+          <p>截至6月底，Trump Media持有9477枚BTC（价值5.57亿美元），Cronos持仓同样大幅缩水。</p>
+          <div class="impact">关联政治人物的加密持仓波动大，散户跟风风险极高。</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/10/trump-media-s-bitcoin-holdings-shrink-as-crypto-losses-hit-usd361-million" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Bitwise分析师：Circle被低估，稳定币将达万亿级</h3>
+          <p>Bitwise的Ryan Rasmussen认为投资者低估了Circle，随着稳定币规模扩张及支付基础设施完善，Circle估值将大幅上升。</p>
+          <div class="impact">稳定币赛道长期增长逻辑明确，Circle上市预期升温。</div>
+          <p><a href="https://www.coindesk.com/coindesk-news/2026/08/10/bitwise-s-rasmussen-circle-is-mispriced-as-stablecoins-head-toward-trillions" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Strategy建立47.5亿美元现金储备</h3>
+          <p>Strategy在增持比特币的同时建立大额现金缓冲，源于传统投资者不将比特币储备视为美元替代。</p>
+          <div class="impact">单一比特币策略吸引力有限，机构投资逻辑正在分化。</div>
+          <p><a href="https://www.coindesk.com/coindesk-news/2026/08/10/strategy-builds-usd4-75-billion-cash-cushion-as-only-bitcoin-isn-t-enough-for-investors" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Grayscale悄然放弃Cardano、Polkadot、Hedera ETF计划</h3>
+          <p>Grayscale表示不再推进这三款代币的ETF申请，相关产品从未生效也未发行或销售任何证券。</p>
+          <div class="impact">主流山寨币ETF审批前景黯淡，监管路径不确定性增加。</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/10/grayscale-quietly-drops-cardano-polkadot-and-hedera-etf-plans" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Bitmine以太坊购买放缓，转向股票回购</h3>
+          <p>Bitmine董事长Tom Lee表示财务环境宽松可能支撑加密，但CLARITY法案未能赶在8月休会前表决。</p>
+          <div class="impact">机构以太坊配置节奏放缓，监管利好短期落空。</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/10/bitmine-s-eth-buying-slows-as-tom-lee-s-firm-shifts-capital-to-share-buybacks" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Solana推出首个Strategy STRC产品</h3>
+          <p>Solstice Finance通过策略股票preferred stock收益分割为低风险 senior token和高风险 junior token，将Strategy产品引入Solana生态。</p>
+          <div class="impact">DeFi结构化产品创新持续，传统金融工具与链上资产融合加速。</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/10/solstice-rolls-out-strategy-s-strc-preferred-stock-income-to-solana" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Strategy出售1690枚比特币，通过MSTR股票融资6.53亿美元</h3>
+          <p>Strategy减少比特币持仓至840447枚，同时将美元储备增至46.5亿美元。</p>
+          <div class="impact">Strategy高抛低吸策略持续，股价与BTC价格联动效应显著。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/08/10/strategy-sells-1-690-bitcoin-raises-usd653-million-from-mstr-shares" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>TRON上USDT供应量达879亿美元，Q2转账额2.1万亿美元</h3>
+          <p>Messari报告显示TRON稳定币供应量和网络活动创历史新高，但DeFi和DEX活跃度下降。</p>
+          <div class="impact">TRON在稳定币结算领域优势巩固，但DeFi竞争力下滑需关注。</div>
+          <p><a href="https://cointelegraph.com/news/tron-usdt-supply-hits-879b-as-transfers-reach-21t-in-q2-messari" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>世界政治</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>内塔尼亚胡拒绝特朗普加沙15点计划</h3>
+          <p>特朗普政府表示对内塔尼亚胡的拒绝并不在意，视其为选前竞选言论，暗示并非最终立场。</p>
+          <div class="impact">中东停火进程再添变数，美国大选前政策声明可信度存疑。</div>
+          <p><a href="https://www.bbc.co.uk/news/articles/ce3q5282ep3o" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>世卫组织警告埃博拉疫情蔓延速度快于应对</h3>
+          <p>感染率持续攀升，当局正努力控制疫情扩散，全球卫生应急体系面临考验。</p>
+          <div class="impact">高致死率传染病跨境传播风险上升，需关注WHO协调机制及疫苗储备。</div>
+          <p><a href="https://www.bbc.co.uk/news/articles/c5ydx7m8gzeo" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>全球海洋录得有记录以来最热七月</h3>
+          <p>受厄尔尼诺发展条件推动，全球海洋温度创历史7月新高，同时西欧野火持续蔓延。</p>
+          <div class="impact">海洋吸热加速极地冰融，气候临界点风险上升，ESG投资需重新评估时间表。</div>
+          <p><a href="https://www.bbc.co.uk/news/articles/cpvw8vmmgrwo" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <footer>Generated at 2026-08-11 01:14 UTC. This automated brief summarizes public information for personal awareness.</footer>
+  </div>
+</body>
+</html>
