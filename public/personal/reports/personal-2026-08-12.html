@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人每日情报简报</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 300; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-08-12 · Personal Brief</div>
+        <h1>个人每日情报简报</h1>
+      </div>
+      <p class="brief">游戏产业聚焦GTA VI新预告与Steam数据泄露事件；加密货币市场横盘，静待美国通胀数据指引方向；地缘政治关注美伊紧张局势。</p>
+    </header>
+    
+    <section>
+      <h2>游戏产业</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>GTA VI将于8月27日发布全新深度预告</h3>
+          <p>Rockstar宣布将于8月27日发布《GTA VI》extended look，Netflix用户可于下午3点优先观看，YouTube平台晚9点播出。</p>
+          <div class="impact">这是该作自发布以来最详尽的一次展示，预估将显著提升玩家社区热度并影响Take-Two股价走势。</div>
+          <p><a href="https://www.theverge.com/entertainment/976073/gta-6-trailer-3-date-time-netflix-youtube" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Steam欧洲硬件配送合作伙伴CEVA Logistics发生数据泄露</h3>
+          <p>Valve警告欧洲Steam硬件订购用户的个人信息可能已暴露，包括姓名、地址、电话及邮箱地址，泄露源为第三方物流商CEVA。</p>
+          <div class="impact">用户需警惕钓鱼攻击与身份盗用风险，建议立即修改关联账户密码并监控异常活动。</div>
+          <p><a href="https://www.theverge.com/games/977314/valve-steam-hardware-shipping-data-breach" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Nintendo第一季度财报超预期，受益于美国关税退款</h3>
+          <p>截至6月30日的季度，任天堂营业利润飙升至1425亿日元（约9.02亿美元），美国关税退款贡献显著，但消费者不会从中获益。</p>
+          <div class="impact">强劲业绩反映Switch平台持续盈利能力，但关税优惠未能让利给终端用户，可能影响品牌口碑。</div>
+          <p><a href="https://www.theverge.com/games/976054/nintendo-earnings-q1-2027-tariff-refund" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>《塞尔达传说》电影甘达夫人选角暗示多部影片计划</h3>
+          <p>澳大利亚演员Uli Latukefu确认出演《塞尔达传说》电影反派甘达夫，且已签署多部电影合约。</p>
+          <div class="impact">多部曲签约模式暗示任天堂正将游戏IP影视化作为长期战略，可能重塑主机游戏与影视娱乐边界。</div>
+          <p><a href="https://www.theverge.com/entertainment/976337/the-legend-of-zelda-movie-ganondorf-multi-picture-deal" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>加密货币</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>比特币横盘整理，静待周三美国通胀数据</h3>
+          <p>数周横盘震荡已压制波动率，市场普遍将周三CPI报告视为下一个价格催化剂，ETF资金流入与卖压形成对峙。</p>
+          <div class="impact">通胀数据若高于预期可能触发美元走强与风险资产回调，反之则有望打破僵局。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/08/11/bitcoin-stuck-as-etf-inflows-offset-selling-but-inflation-data-could-spark-a-move" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>巴西最大银行Itaú深化代币化债券试验</h3>
+          <p>Itaú Unibanco与代币化服务商OpenAssets合作，在巴西金融监管机构ANBIMA监督下测试代币化债券与基金。</p>
+          <div class="impact">拉美银行业龙头入场代币化赛道，或加速传统金融资产数字化进程并创造合规DeFi入口。</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/11/brazil-s-largest-lender-itau-is-stepping-deeper-into-the-tokenization" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>SEC与CFTC联合起诉Goliath Ventures 4亿美元加密庞氏骗局</h3>
+          <p>监管机构指控Goliath承诺加密流动性池回报，实际用于支付早期投资者及创始人奢侈消费。</p>
+          <div class="impact">针对主流DeFi骗局的跨国执法行动升级，监管透明度要求将进一步挤压散户参与高收益流动性池空间。</div>
+          <p><a href="https://cointelegraph.com/news/sec-cftc-sue-goliath-ventures-400m-crypto-ponzi" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>加密友好银行Erebor正洽谈融资15亿美元、估值95亿美元</h3>
+          <p>总存款从3月的11亿美元增至7月的46亿美元，主要由加密、人工智能及防务领域客户驱动。</p>
+          <div class="impact">传统金融机构与加密生态的融合正在加速，合规加密银行估值高企反映市场信心与监管套利空间。</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/11/crypto-friendly-bank-erebor-in-talks-to-raise-usd1-5-billion-at-usd9-5-billion-valuation-ft" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>MoneyGram扩展Solana全球加密货币至现金服务</h3>
+          <p>Solana链上钱包与应用现可接入MoneyGram全球网络，在数字资产与本地法币之间实现无缝兑换。</p>
+          <div class="impact">主流汇款网络接入公链标志着加密货币日常支付场景落地迈出实质一步。</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/10/moneygram-expands-on-solana-with-global-crypto-to-cash-service" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>世界政治</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>特朗普专机交换事件暴露对伊战争个人利益关联</h3>
+          <p>BBC分析指出，特朗普近期采取的军事姿态与其个人财务及家族在中东利益存在潜在关联，引发外界对政策独立性的质疑。</p>
+          <div class="impact">地缘政治决策若受个人利益驱动，可能导致中东政策不确定性上升，影响全球能源市场与金融风险偏好。</div>
+          <p><a href="https://www.bbc.co.uk/news/articles/cly8jexn1z9o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <footer>Generated at 2026-08-12 01:21 UTC. This automated brief summarizes public information for personal awareness.</footer>
+  </div>
+</body>
+</html>
