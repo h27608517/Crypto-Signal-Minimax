@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>个人每日情报简报</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 300; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-08-14 · Personal Brief</div>
+        <h1>个人每日情报简报</h1>
+      </div>
+      <p class="brief">游戏业Netflix关闭工作室、加密SEC再度推迟代币化豁免规则、俄乌局势普京无法宣称胜利</p>
+    </header>
+    
+    <section>
+      <h2>游戏产业</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Netflix关闭两家游戏工作室</h3>
+          <p>Netflix计划关闭两家游戏工作室，包括2021年收购的夜校工作室（Oxenfree系列），转向派对游戏和电视串流游戏。</p>
+          <div class="impact">Netflix游戏战略重大调整，独立工作室面临不确定性，可能影响中小型游戏开发生态。</div>
+          <p><a href="https://www.theverge.com/games/979855/netflix-shut-down-night-school-studio-moonloot-games" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>2K成立新工作室Small Axe Studios</h3>
+          <p>2K宣布成立新AAA游戏开发工作室Small Axe Studios，目标是打造公司&quot;下一个爆款体育 franchises&quot;，图片显示可能与足球相关。</p>
+          <div class="impact">2K加码体育游戏领域，新工作室可能对EA Sports的FIFA系列构成竞争威胁。</div>
+          <p><a href="https://www.theverge.com/games/979689/2k-sports-franchise-small-axe-studios-soccer" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>漫威金刚狼PS5游戏预览</h3>
+          <p>两小时试玩体验，游戏血腥战斗出色，角色塑造成功让无前作的玩家也爱上金刚狼。</p>
+          <div class="impact">Insomniac又一惊艳作品，PS5独占阵容再添猛将，超级英雄游戏品质持续走高。</div>
+          <p><a href="https://www.theverge.com/games/977564/marvels-wolverine-ps5-preview-character-combat" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Switch 2首发火焰纹章新作预览</h3>
+          <p>《命运编织》采用全新结构，允许在四位主角及其路线间切换，区别于前作三 Houses的单线叙事。</p>
+          <div class="impact">任天堂策略革新，多线叙事提升重玩价值，Switch 2首发阵容强劲。</div>
+          <p><a href="https://www.theverge.com/games/977955/fire-emblem-fortunes-weave-preview-impressions-nintendo-switch-2" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>独立发行商Kinetic Publishing首次展示</h3>
+          <p>Phasmophobia开发团队创办的新发行商公布5款2027-2028年发行计划，包括Telling Lies工作室新作。</p>
+          <div class="impact">独立游戏发行格局生变，Sam Barlow新作值得关注，发行商竞争加剧。</div>
+          <p><a href="https://www.theverge.com/games/977985/kinetic-publishing-showcase-sam-barlow-precognition" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>亚马逊全面退出MMO业务</h3>
+          <p>亚马逊将《王权与自由》和《失落的方舟》在西方运营权移交其他公司，正式退出MMO领域。</p>
+          <div class="impact">继去年宣布暂停AAA游戏开发后，亚马逊游戏业务进一步收缩，行业整合持续。</div>
+          <p><a href="https://www.theverge.com/tech/979070/amazon-mmo-throne-and-liberty-lost-ark-live-operations" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">游戏产业</span>
+          <h3>Saber否认Rideshare编剧被AI替换</h3>
+          <p>前首席编剧Stella Sacco称被ChatGPT取代，Saber CEO回应称未用AI替换任何编剧，争议持续。</p>
+          <div class="impact">AI替代创作者争议再起，游戏行业劳动权益与AI应用边界问题引发关注。</div>
+          <p><a href="https://www.theverge.com/games/978558/rideshare-stimulator-writer-ai-saber-interactive" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>加密货币</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>美国SEC再次推迟代币化创新豁免</h3>
+          <p>SEC准备在&quot;Reg Crypto&quot;会议上发布部分创新豁免，但会议已取消，推迟原因涉及华尔街和白宫担忧。</p>
+          <div class="impact">监管不确定性持续，华尔街机构参与加密市场的合规路径再度延迟，影响代币化进程。</div>
+          <p><a href="https://www.coindesk.com/policy/2026/08/13/u-s-sec-to-again-delay-innovation-exemption-for-tokenization-amid-wall-street-white-house-concerns" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>SEC取消Reg Crypto提案会议</h3>
+          <p>美国证券交易委员会首个重大加密规则提案突遭推迟，会议无限期延后。</p>
+          <div class="impact">加密监管框架出台时间表再度模糊，市场需保持耐心等待明确规则。</div>
+          <p><a href="https://www.coindesk.com/policy/2026/08/13/sec-cancels-long-awaited-proposal-of-reg-crypto-postponing-meeting-without-new-date" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>Tether完成1800亿美元USDT审计</h3>
+          <p>Tether宣布完成KPMG美国对其储备的全面审计，包括金条盘点，兑现长期承诺。</p>
+          <div class="impact">稳定币透明度提升有助于增强市场信心，USDT仍是加密市场核心基础设施。</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/13/tether-says-it-completed-long-promised-big-four-audit-of-finances-behind-usd180-billion-usdt-stablecoin" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>比特币百万美元预测或过于乐观</h3>
+          <p>关键指标显示，长期美国国债高收益率使无收益资产比特币吸引力下降，百万美元目标存疑。</p>
+          <div class="impact">宏观利率环境仍是比特币价格的重要压制因素，乐观预测需谨慎评估。</div>
+          <p><a href="https://www.coindesk.com/markets/2026/08/13/forecasts-for-usd1-million-bitcoin-price-likely-look-too-ambitious-key-ratio-suggests" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>以太坊基金会放弃Poseidon抗量子计划</h3>
+          <p>以太坊研究员Justin Drake表示，紧凑型证明技术的进步使Poseidon失去以往的性能优势。</p>
+          <div class="impact">以太坊后量子密码学路线图调整，技术选型随研发进展而演进。</div>
+          <p><a href="https://cointelegraph.com/news/ethereum-foundation-drops-poseidon-post-quantum-plan" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>韩国Delio CEO因加密欺诈被判15年</h3>
+          <p> Jeong Sang-ho因加密公司Delio相关欺诈指控被韩国法院判处15年监禁。</p>
+          <div class="impact">加密行业合规监管趋严，韩国市场清算持续，机构违法成本显著上升。</div>
+          <p><a href="https://cointelegraph.com/news/delio-ceo-prison-crypto-fraud-south-korea" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">加密货币</span>
+          <h3>B2C2聘请施罗德老将拓展亚洲加密业务</h3>
+          <p>机构加密流动性提供商B2C2聘请前施罗德亚洲财富管理主席，目标锁定家族办公室和资产管理公司。</p>
+          <div class="impact">传统金融专业人士流入加密领域，亚洲加密财富管理市场竞争加剧。</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/13/b2c2-taps-schroders-veteran-to-chase-asia-s-growing-crypto-wealth" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <section>
+      <h2>世界政治</h2>
+      <div class="events">
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>诺贝尔和平奖得主：普京无法在乌克兰宣称胜利</h3>
+          <p>俄乌战争进入第五年，诺贝尔和平奖得主穆拉托夫接受BBC专访称，普京只能&quot;摧毁乌克兰而非征服&quot;。</p>
+          <div class="impact">国际社会对俄乌局势判断趋于明确，战争持续但胜负态势日益清晰。</div>
+          <p><a href="https://www.bbc.co.uk/news/articles/c74grmy2v7ko" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">世界政治</span>
+          <h3>芝加哥陪审团判波音赔偿爱尔兰坠机受害者家属2900万美元</h3>
+          <p>Michael Ryan家属对波音提起民事诉讼获胜，陪审团裁定赔偿2900万美元。</p>
+          <div class="impact">波音法律责任持续追究，航空安全与公司治理问题引发持续关注。</div>
+          <p><a href="https://www.bbc.co.uk/news/articles/ce85p80nn2yo" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div>
+    </section>
+    <footer>Generated at 2026-08-14 01:22 UTC. This automated brief summarizes public information for personal awareness.</footer>
+  </div>
+</body>
+</html>
