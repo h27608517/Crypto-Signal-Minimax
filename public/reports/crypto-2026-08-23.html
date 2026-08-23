@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>加密市场日报 2026-08-23｜BTC回踩77K 震荡整理 关注持仓动向</title>
+  <style>
+    :root { color-scheme: light; --ink: #1A1A1A; --muted: #8E8E93; --paper: #F5F7FA; --panel: #FFFFFF; --line: #E2E8F0; --accent: #FF3B30; --hot: #007AFF; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--paper); color: var(--ink); }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 34px 20px 56px; }
+    header { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: end; padding: 34px 0 28px; border-bottom: 1px dashed var(--line); }
+    .date { color: var(--accent); font-weight: 700; margin-bottom: 14px; text-transform: uppercase; }
+    h1 { font-size: clamp(34px, 6vw, 68px); line-height: .95; letter-spacing: 0; margin: 0; max-width: 820px; font-weight: 700; }
+    .brief { font-size: 20px; line-height: 1.65; color: var(--muted); margin: 0; font-weight: 300; }
+    section { padding: 28px 0; border-bottom: 1px dashed var(--line); }
+    h2 { font-size: 22px; margin: 0 0 18px; font-weight: 700; }
+    .market { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; }
+    .coin, .event { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; box-shadow: none; }
+    .coin b { display: block; font-size: 15px; margin-bottom: 8px; }
+    .price { font-size: 22px; font-weight: 300; font-family: Inter, "Helvetica Neue", sans-serif; }
+    .change { margin-top: 8px; color: var(--muted); font-size: 14px; font-weight: 300; }
+    .up { color: var(--accent); }
+    .down { color: var(--hot); }
+    .summary-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; padding: 0; margin: 0; list-style: none; }
+    .summary-list li { background: var(--panel); border: 1px dashed var(--line); border-left: 2px solid var(--accent); padding: 12px 14px; line-height: 1.6; font-weight: 300; }
+    .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .tag { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: .08em; text-transform: uppercase; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 3px 0; }
+    .event h3 { font-size: 18px; line-height: 1.35; margin: 0 0 10px; font-weight: 700; }
+    .event p { color: var(--muted); line-height: 1.65; margin: 0 0 12px; font-weight: 300; }
+    .impact { font-size: 14px; color: var(--ink); font-weight: 300; }
+    .columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+    .portfolio-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px; }
+    .portfolio-card { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 14px 16px; box-shadow: none; }
+    .portfolio-card span { display: block; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    .portfolio-card b { font-size: 21px; font-weight: 300; font-family: Inter, "Helvetica Neue", sans-serif; }
+    .table-wrap { margin-top: 18px; overflow-x: auto; }
+    .table-wrap h3 { margin: 0 0 10px; font-size: 16px; }
+    table { width: 100%; border-collapse: collapse; min-width: 680px; background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; overflow: hidden; box-shadow: none; }
+    th, td { padding: 11px 12px; border-bottom: 1px dashed var(--line); text-align: left; font-size: 14px; white-space: nowrap; font-weight: 300; }
+    th { color: var(--muted); font-size: 12px; text-transform: uppercase; font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    .notice { background: var(--panel); border: 1px dashed var(--line); border-radius: 2px; padding: 16px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    .action { display: inline-block; min-width: 56px; padding: 4px 0; border-radius: 0; text-align: center; font-size: 12px; font-weight: 700; background: transparent; color: var(--ink); border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; text-transform: uppercase; }
+    .action-buy, .action-add { color: var(--accent); }
+    .action-reduce, .action-sell { color: var(--hot); }
+    .plain-list { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }
+    footer { padding-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; font-weight: 300; }
+    @media (max-width: 760px) { header { grid-template-columns: 1fr; } .brief { font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="date">2026-08-23 · Crypto Daily</div>
+        <h1>加密市场日报 2026-08-23｜BTC回踩77K 震荡整理 关注持仓动向</h1>
+      </div>
+      <p class="brief">BTC回踩77,000美元支撑，ETH跌超3%。市场短期超买，仓位管理优先，关注HYPE/BNB上行空间。</p>
+    </header>
+    <section><h2>Market Snapshot</h2><div class="market">
+          <div class="coin">
+            <b>Bitcoin · BTC</b>
+            <div class="price">$77,325.00</div>
+            <div class="change down">24h -1.70%</div>
+          </div>
+          <div class="coin">
+            <b>Ethereum · ETH</b>
+            <div class="price">$2,433.53</div>
+            <div class="change down">24h -3.90%</div>
+          </div>
+          <div class="coin">
+            <b>XRP · XRP</b>
+            <div class="price">$1.50</div>
+            <div class="change up">24h +1.10%</div>
+          </div>
+          <div class="coin">
+            <b>BNB · BNB</b>
+            <div class="price">$701.09</div>
+            <div class="change up">24h +0.70%</div>
+          </div>
+          <div class="coin">
+            <b>Solana · SOL</b>
+            <div class="price">$96.83</div>
+            <div class="change down">24h -0.30%</div>
+          </div>
+          <div class="coin">
+            <b>Dogecoin · DOGE</b>
+            <div class="price">$0.09</div>
+            <div class="change down">24h -2.30%</div>
+          </div></div></section>
+    
+    <section>
+      <h2>OKX Portfolio</h2>
+      <div class="portfolio-summary">
+        <div class="portfolio-card">
+          <span>Total Equity</span>
+          <b>$883.69</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Adjusted Equity</span>
+          <b>-</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Initial Margin</span>
+          <b>-</b>
+        </div>
+        <div class="portfolio-card">
+          <span>Maintenance Margin</span>
+          <b>-</b>
+        </div></div>
+      <div class="table-wrap">
+        <h3>Asset Balances</h3>
+        <table>
+          <thead><tr><th>Asset</th><th>Equity</th><th>Cash</th><th>USD Value</th><th>Spot Avg Price</th><th>Spot Upnl</th><th>Position Upnl</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>BTC</td>
+            <td>0.00696701</td>
+            <td>0.00696701</td>
+            <td>$538.70</td>
+            <td>78,441.3598</td>
+            <td>$-7.80</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>HYPE</td>
+            <td>3.1277</td>
+            <td>3.1277</td>
+            <td>$251.60</td>
+            <td>73.803</td>
+            <td>$20.76</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>BNB</td>
+            <td>0.1212746</td>
+            <td>0.1212746</td>
+            <td>$84.93</td>
+            <td>658.1828</td>
+            <td>$5.11</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>USDT</td>
+            <td>7.6344</td>
+            <td>4.8023</td>
+            <td>$7.63</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$-0.27</td>
+          </tr>
+          <tr>
+            <td>AVAX</td>
+            <td>0.07338369</td>
+            <td>0.07338369</td>
+            <td>$0.56</td>
+            <td>8.8968</td>
+            <td>$-0.10</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>ETH</td>
+            <td>0.00009619</td>
+            <td>0.00009619</td>
+            <td>$0.23</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>BETH</td>
+            <td>0.00001456</td>
+            <td>0.00001456</td>
+            <td>$0.04</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>LIT</td>
+            <td>0.000274</td>
+            <td>0.000274</td>
+            <td>$0.00</td>
+            <td>1.5315</td>
+            <td>$0.00</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>BERA</td>
+            <td>0.000876</td>
+            <td>0.000876</td>
+            <td>$0.00</td>
+            <td>7.9618</td>
+            <td>$-0.01</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>SONIC</td>
+            <td>0.00366546</td>
+            <td>0.00366546</td>
+            <td>$0.00</td>
+            <td>0.71501</td>
+            <td>$-0.00</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>OKSOL</td>
+            <td>0.00000018</td>
+            <td>0.00000018</td>
+            <td>$0.00</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr>
+          <tr>
+            <td>SOL</td>
+            <td>0.00000003</td>
+            <td>0.00000003</td>
+            <td>$0.00</td>
+            <td>-</td>
+            <td>-</td>
+            <td>$0.00</td>
+          </tr></tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <h3>Open Positions</h3>
+        <table>
+          <thead><tr><th>Instrument</th><th>Side</th><th>Size</th><th>Avg Price</th><th>Mark Price</th><th>Position Upnl</th><th>PnL %</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>BTC-USDT-SWAP</td>
+            <td>long</td>
+            <td>0.04</td>
+            <td>78,020.1</td>
+            <td>77,336.9</td>
+            <td>$-0.27</td>
+            <td>-8.76%</td>
+          </tr></tbody>
+        </table>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Technical Outlook</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Coin</th><th>Action</th><th>Now</th><th>Expected</th><th>Time</th><th>Probability</th><th>Reason</th><th>Risk</th></tr></thead>
+          <tbody>
+          <tr>
+            <td>HYPE</td>
+            <td><span class="action action-hold">hold</span></td>
+            <td>$80.47</td>
+            <td>$86.08</td>
+            <td>2-4天</td>
+            <td>64%</td>
+            <td>持仓已实现浮盈20.76美元，8h RSI 80但动能仍正，组合评分70，技术面偏多；注意24h RSI已达92，追高需控仓</td>
+            <td>极端超买区若出现获利了结，短期可能回踩EMA20（70.1美元附近）</td>
+          </tr>
+          <tr>
+            <td>BNB</td>
+            <td><span class="action action-hold">hold</span></td>
+            <td>$700.50</td>
+            <td>$726.40</td>
+            <td>2-4天</td>
+            <td>62%</td>
+            <td>持仓成本658.18美元，浮盈5.11美元，8h RSI 83、24h RSI 86，EMA多头排列，理论空间约3.7%；突破历史前高726美元可期</td>
+            <td>Sandbox/BounceBit安全事件可能压制短期情绪，RSI持续高位有回撤风险</td>
+          </tr>
+          <tr>
+            <td>BTC</td>
+            <td><span class="action action-hold">hold</span></td>
+            <td>$77,325.00</td>
+            <td>$79,851.00</td>
+            <td>1-2周</td>
+            <td>62%</td>
+            <td>BTC现货持仓成本78,441美元，略高于现价，组合评分67.8，1-2周目标79,851美元，宏观流动性改善支撑中期偏多</td>
+            <td>BTC-USDT永续合约（78020入场）杠杆10x，现货与合约均面临短期回撤风险；RSI 89.67极高，建议关注止损</td>
+          </tr>
+          <tr>
+            <td>ETH</td>
+            <td><span class="action action-watch">watch</span></td>
+            <td>$2,433.53</td>
+            <td>$2,536.29</td>
+            <td>1-2周</td>
+            <td>62%</td>
+            <td>ETH无持仓但24h RSI 82偏多，组合评分67.8，短期支撑2350-2400美元；等回踩后介入更稳妥</td>
+            <td>24小时跌幅3.9%为跌幅最大主流币，动能减弱；ETF流入但需观察持续性</td>
+          </tr>
+          <tr>
+            <td>OKB</td>
+            <td><span class="action action-add">add</span></td>
+            <td>$110.87</td>
+            <td>$120.00</td>
+            <td>2-4天</td>
+            <td>67%</td>
+            <td>组合评分73.8为最高非持仓标的，24h RSI 74.56处于健康偏多区间，8h RSI 66.42仍有上行空间；突破120美元阻力后空间明确</td>
+            <td>OKX生态代币，注意平台相关风险；日内存量资金博弈可能加剧波动</td>
+          </tr>
+          <tr>
+            <td>SOL</td>
+            <td><span class="action action-watch">watch</span></td>
+            <td>$96.83</td>
+            <td>$100.77</td>
+            <td>1-2周</td>
+            <td>61%</td>
+            <td>区块时间压缩技术升级，偏多情绪支撑；组合评分67.1，24h RSI 89.79极端超买，等回踩至EMA20（81.9美元附近）再考虑买入</td>
+            <td>超买严重，成交量比率偏低，短期回调概率大；治理投票前端存在显示错误，影响短期判断</td>
+          </tr>
+          <tr>
+            <td>ZRO</td>
+            <td><span class="action action-watch">watch</span></td>
+            <td>$1.1684</td>
+            <td>$1.267</td>
+            <td>2-4天</td>
+            <td>64%</td>
+            <td>8h成交量比率1.59倍放量，组合评分70.7，短线动能强劲；突破1.195阻力后目标1.267</td>
+            <td>代币市值较小，流动性有限；RSI 80超买，追高风险显著</td>
+          </tr>
+          <tr>
+            <td>ZEC</td>
+            <td><span class="action action-watch">watch</span></td>
+            <td>$803.82</td>
+            <td>$874.26</td>
+            <td>2-4天</td>
+            <td>62%</td>
+            <td>Grayscale ETF申请催化，ZEC突破800美元创八年新高，期货成交量接近100亿美元，机构关注度提升</td>
+            <td>涨幅48%后已进入极端超买区域，24h RSI 89.24；期货主导的涨幅波动性极大，需严格止损</td>
+          </tr>
+          <tr>
+            <td>TRUMP</td>
+            <td><span class="action action-watch">watch</span></td>
+            <td>$2.393</td>
+            <td>$3.679</td>
+            <td>2-4天</td>
+            <td>64%</td>
+            <td>MEME币属性，组合评分70.2，短期目标3.679美元（+53%空间），24h成交量正常</td>
+            <td>MEME币波动极大，缺乏基本面支撑，仅适合高风险偏好；极端行情需快进快出</td>
+          </tr>
+          <tr>
+            <td>DASH</td>
+            <td><span class="action action-watch">watch</span></td>
+            <td>$41.93</td>
+            <td>$47.5</td>
+            <td>2-4天</td>
+            <td>64%</td>
+            <td>8h成交量比率1.38倍，组合评分70.7，突破47.5美元后上涨空间约13%；技术面多头排列</td>
+            <td>匿名币属性，流动性相对偏弱；RSI 72-85偏高，回调风险不可忽视</td>
+          </tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section><h2>Market in Brief</h2><ul class="summary-list"><li>BTC现价77,325美元，24小时跌幅1.7%，日线RSI仍处82高位，短期或震荡整固</li><li>ETH领跌主流币，跌3.9%至2,434美元，24小时RSI 82，偏多但动能减弱</li><li>XRP逆势涨1.1%至1.5美元，7日涨幅45.8%，仍为最强主流币</li><li>BNB获技术面支撑，8小时RSI 83，24小时RSI 86，维持偏多格局</li><li>本周加密ETF净流入26亿美元，创10月以来新高，机构参与度显著提升</li></ul></section>
+    <section><h2>Key Events</h2><div class="events">
+        <article class="event">
+          <span class="tag">宏观</span>
+          <h3>美国财政部回购松动触发BTC空头挤压行情</h3>
+          <p>美国财政部调整债券回购机制缓解长端收益率压力，触发历史级别空头挤压，BTC单周涨幅创两年新高。建议关注周末宏观数据对短期流动性的影响。</p>
+          <div class="impact">短期利好</div>
+          <p><a href="https://www.coindesk.com/markets/2026/08/22/how-a-treasury-buyback-tweak-helped-bitcoin-surge-nearly-25-in-days" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">ETF</span>
+          <h3>灰度再递交Zcash现货ETF申请</h3>
+          <p>ZEC突破800美元创八年新高，Grayscale提交转换Zcash Trust为现货ETF的修订文件，提议2.5%管理费，DCG潜在持股34%。期货24小时成交量接近100亿美元。</p>
+          <div class="impact">中期利好</div>
+          <p><a href="https://www.coindesk.com/markets/2026-08/22/zcash-tops-usd800-for-first-time-since-2016" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">行业</span>
+          <h3>Solana将区块时间压缩至350毫秒</h3>
+          <p>Solana主网激活首个区块时间削减方案，朝200毫秒目标迈出第一步，旨在加快交易确认，不涉及吞吐量提升。首轮治理投票临近但前端存在60% quorum显示错误。</p>
+          <div class="impact">中性偏多</div>
+          <p><a href="https://www.theblock.co/news/ecosystems/2026-08-22-solana-cuts-mainnet-slot-time-to-350-milliseconds-in-first-step-toward-200ms-goal-412521" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">监管</span>
+          <h3>华盛顿全面拥抱加密：CLARITY法案9月参院表决</h3>
+          <p>特朗普敦促通过公平版CLARITY法案，CFTC警告若立法停滞将自行制定规则，SEC罕见推进首个加密融资框架。CFTC同时获参议院提名新主席人选，监管明确化预期升温。</p>
+          <div class="impact">中期利好</div>
+          <p><a href="https://decrypt.co/376204/washington-crypto-trump-clarity-sec-rules-cftc-warnings" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">安全</span>
+          <h3>Sandbox与BounceBit双跨链攻击事件</h3>
+          <p>Sandbox因跨链桥漏洞停止Base和BNB链的代币跨链，影响供应量不足0.01%；BounceBit遭$300万攻击后宣布关停并迁移至BNB Chain。</p>
+          <div class="impact">短期利空BNB生态</div>
+          <p><a href="https://www.theblock.co/news/ecosystems/2026-08-21-bouncebit-sunset-blockchain-migrate-bnb-chain-after-3-million-exploit-412485" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">监管</span>
+          <h3>伊利诺伊州0.2%加密税遭行业协会起诉</h3>
+          <p>区块链协会和Crypto Council for Innovation对伊利诺伊州新加密资产税提起诉讼，该税按用户总资产价值月度征税，需进一步观察法院裁决结果。</p>
+          <div class="impact">需持续观察</div>
+          <p><a href="https://cryptoslate.com/everyday-crypto-users-face-monthly-tax-bills-on-total-asset-value-if-covered-brokers-fail-to-collect-under-new-illinois-rules/" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">行业</span>
+          <h3>BitMart交易所考虑部分重启</h3>
+          <p>BitMart宣布关停数周后聘请White &amp; Case为重组法律顾问，详细方案预计9月9日前公布。部分重启方案可能影响债权人清偿比例。</p>
+          <div class="impact">需持续观察</div>
+          <p><a href="https://www.coindesk.com/business/2026/08/22/crypto-exchange-bitmart-weighs-partial-restart-and-creditor-payouts-weeks-after-announcing-shutdown" target="_blank" rel="noreferrer">Source</a></p>
+        </article>
+        <article class="event">
+          <span class="tag">行业</span>
+          <h3>比特币ETF资金流入创年内最强单周</h3>
+          <p>比特币和以太坊ETF本周净流入26亿美元，交易量较前周增长两倍至290亿美元，但两类产品年内仍为负收益。机构配置需求回升。</p>
+          <div class="impact">中期利好</div>
+          <p><a href="https://www.theblock.co/news/markets/2026-08-22-bitcoin-and-ether-etfs-draw-2-6-billion-in-strongest-inflow-week-since-october-tripling-volume-412531" target="_blank" rel="noreferrer">Source</a></p>
+        </article></div></section>
+    <section class="columns">
+      <div><h2>Watch Next</h2><ul class="plain-list"><li>OKB-USDT（110.87美元，24h目标120美元，RSI 74，技术面最强非持仓标的）</li><li>ZRO-USDT（1.17美元，短期目标1.27美元，8h成交量放大1.59倍）</li><li>ZEC-USDT（803美元，目标874美元，Grayscale ETF申请持续催化）</li><li>DASH-USDT（41.93美元，目标47.5美元，8h成交量比率1.38）</li><li>TRB-USDT（19.01美元，目标22.86美元，动能指标偏强）</li></ul></div>
+      <div><h2>Risk Notes</h2><ul class="plain-list"><li>BTC/ETH日线RSI均超80，市场短期超买，回调风险上升，建议止损设置合理</li><li>HYPE 24h RSI高达92，技术面极端超买，短期追高需谨慎</li><li>BNB链上安全事件（Sandbox/BounceBit）或影响BNB短期情绪</li><li>BTC杠杆空头挤压后可能快速平仓，波动率维持高位</li><li>宏观流动性信号需持续跟踪，财政政策变化影响加密风险偏好</li></ul></div>
+    </section>
+    <footer>Generated at 2026-08-23 00:57 UTC. This automated report summarizes public information only and is not investment advice.</footer>
+  </div>
+</body>
+</html>
